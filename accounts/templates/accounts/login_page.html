@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Login Page{% endblock %}
+
+{% block content %}
+
+    <!-- Contact Section Start -->
+    <section class="contact-section fix section-padding">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="row text-center g-4 mx-auto align-items-center">
+                    <div class="col-lg-12">
+                        <div class="contact-content align-center">
+                            <h2>Login to your account:</h2>
+                            <form action="{% url 'accounts:login' %}" id="contact-form2" method="POST" class="contact-form-items text-center d-flex justify-content-center align-items-center">
+                                <div class="row g-4 align-items-center align-content-center">
+                                    {% csrf_token %}
+                                    <div class="col-lg-12 wow fadeInUp" data-wow-delay=".3s">
+                                        <div class="form-clt">
+                                            <span>Your Email or Username:</span>
+                                            {% if form.email_or_username.errors %}
+                                            <h6 class="text-danger">{{ form.email_or_username.errors }} :(</h6>
+                                            {% endif %}
+                                            {{ form.email_or_username }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 wow fadeInUp" data-wow-delay=".5s">
+                                        <div class="form-clt">
+                                            <span>Your Password:</span>
+                                            {% if form.password.errors %}
+                                            <h6 class="text-danger">{{ form.password.errors }} :(</h6>
+                                            {% endif %}
+                                            {{ form.password }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 wow fadeInUp" data-wow-delay=".9s">
+                                        <button type="submit" class="theme-btn style-2">
+                                            Login <i class="fa-solid fa-arrow-right-long"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
