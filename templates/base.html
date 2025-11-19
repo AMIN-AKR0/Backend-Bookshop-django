@@ -1,6 +1,5 @@
-{% load static %}
-
 <!DOCTYPE html>
+{% load static %}
 
 <html lang="en">
 <!-- https://codeexplore.ir/ -->
@@ -276,6 +275,15 @@
                                     <li>
                                         <a href="contact.html">Contact</a>
                                     </li>
+                                    {% if request.user.is_authenticated %}
+                                    <li>
+                                        <a href="">Account</a>
+                                    </li>
+                                    {% else %}
+                                    <li>
+                                        <a href="{% url 'accounts:login' %}">Login/Signup</a>
+                                    </li>
+                                    {% endif %}
                                 </ul>
                             </nav>
                         </div>

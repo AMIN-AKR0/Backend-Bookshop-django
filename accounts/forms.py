@@ -1,24 +1,146 @@
 from django import forms
+from accounts.models import User
 
 class AccountForm(forms.Form):
-    def clean_email(self, email):
-        email_clean = email.strip().lower().replace(" ", "")
+    def clean_email(self):
+        if self.cleaned_data.get('email'):
+            email       = self.cleaned_data.get('email')
+            email_clean = email.strip().lower().replace(" ", "")
 
-        if email_clean.startswith("www."):
-            email_clean = email_clean[4:]
+            if email_clean.startswith("www."):
+                email_clean = email_clean[4:]
 
-        return email_clean
+            return email_clean
+        else:
+            return None
 
-    def clean_username(self, username):
-        username_clean = username.strip().replace(" ", "")
+    def clean_username(self):
+        username       = self.cleaned_data.get('username')
+        username_clean = username.strip().replace(" ", "").replace("@", "").replace("www.", "").replace("+", "").replace("-", "")
         return username_clean
 
-    def is_email(self, email_or_username: str) -> bool:
-        return "@" in email_or_username.lower()
+    def clean_password(self):
+        password       = self.cleaned_data.get('password')
+        password_clean = password.strip().replace(" ", "")
+        return password_clean
 
-    def is_username(self, email_or_username: str) -> bool:
-        return not "@" in email_or_username.lower()
+    def clean_number(self):
+        number         = self.cleaned_data.get('number')
+        cleaned_number = number.strip().replace(" ", "")
+
+        if cleaned_number.startswith(("+", "-")):
+            cleaned_number = number[1:]
+
+        if not cleaned_number.isdigit():
+            self.add_error("number", "Number must be numeric")
+
+        if cleaned_number.startswith("98"):
+            cleaned_number = cleaned_number[2:]
+            cleaned_number = "0" + cleaned_number
+
+        if not cleaned_number.startswith("09"):
+            self.add_error("number", "Number must start with 09... or 98...")
+
+        return cleaned_number
+
+    def is_email(self, email: str) -> bool:
+        return "@gmail.com" in email.lower()
+
+    def is_username(self, username: str) -> bool:
+        return not "@" in username.lower() and not username.isdigit()
+
+    def is_number(self, value: str) -> bool:
+        return value.isdigit() and len(value) == 11
+
+
+class SignupForm(AccountForm):
+    email     = forms.EmailField(max_length=254, required=False, widget=forms.EmailInput())
+    username  = forms.CharField(max_length=30, required=True, widget=forms.TextInput())
+    number    = forms.CharField(max_length=13, required=True, widget=forms.TextInput())
+    password  = forms.CharField(widget=forms.PasswordInput())
+    password2 = forms.CharField(widget=forms.PasswordInput())
+
+
+    def password_chek(self, password, password2):
+        if password != password2:
+            return False
+        else:
+            return True
+
+    def clean(self):
+
+        cleaned = super().clean()
+
+        email     = cleaned.get('email')
+        username  = cleaned.get('username')
+        number    = cleaned.get('number')
+        password  = cleaned.get('password')
+        password2 = cleaned.get('password2')
+
+        if not number or not username  or not password or not password2:
+            self.add_error("number", "Phone number and username and password are required")
+
+        if not self.password_chek(password, password2):
+            self.add_error('password', "your Passwords don't match")
+        if email:
+            if not self.is_email(email):
+                self.add_error('email', 'Invalid email')
+
+        if not self.is_username(username):
+            self.add_error('username', 'Invalid username')
+
+
+        if not self.is_number(number):
+            self.add_error('number', 'Invalid number')
+
+        if email:
+            if User.objects.filter(email=email).exists():
+                self.add_error('email', 'Email already registered')
+
+        if User.objects.filter(username=username).exists():
+            self.add_error('username', 'Username already registered')
+
+        if User.objects.filter(number=number).exists():
+            self.add_error('number', 'Number already registered')
+
 
 class LoginForm(AccountForm):
-    email_or_username = forms.CharField(max_length=100, required=True, widget=forms.TextInput, label="email_or_username", help_text="Enter your email or username")
-    password = forms.CharField(widget=forms.PasswordInput, label="password", help_text="Enter your password")
+    number_or_username = forms.CharField(max_length=254, required=True, widget=forms.TextInput(), label="number_or_username")
+    password           = forms.CharField(widget=forms.PasswordInput(), label="password", help_text="Enter your password")
+
+    def clean(self):
+        cleaned = super().clean()
+
+        number_or_username = cleaned.get('number_or_username')
+
+        if not number_or_username:
+            self.add_error('number_or_username', 'Phone number and username are required')
+            return cleaned
+
+        if number_or_username.startswith("+") or number_or_username.startswith("-"):
+            number_or_username = number_or_username[1:]
+            if number_or_username.startswith("98"):
+                number_or_username = "0" + number_or_username[2:]
+
+        if self.is_number(number_or_username):
+            cleaned['number'] = number_or_username
+
+        elif self.is_username(number_or_username):
+            cleaned['username'] = number_or_username
+
+        else:
+            self.add_error('number_or_username', 'Invalid number or username')
+
+        cleaned.pop('number_or_username', None)
+        return cleaned
+
+
+class RegisterForm(AccountForm):
+    number_code = forms.CharField(max_length=5, required=True, widget=forms.TextInput())
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        if not code:
+            self.add_error('code', 'Invalid code')
+            return None
+        return code.strip().replace(" ", "")
