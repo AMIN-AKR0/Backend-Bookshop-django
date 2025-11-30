@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-(67&m40w=v*^#!vh#fv(%zq7ru+cm%3lk7&d9&-ks@y=ya_ibm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     # My Apps
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
+    'shop.apps.ShopConfig',
 ]
 
 MIDDLEWARE = [
@@ -125,6 +127,11 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(
+    BASE_DIR, 'media'
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

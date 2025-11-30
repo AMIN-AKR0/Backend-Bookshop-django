@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from accounts.models import User
+from accounts.models import User, UserProfile
 
 
 # Register your models here.
+@admin.register(User)
 class CustomUserAdmin(UserAdmin):
     model        = User
     list_display = ("number", "username", "email")
@@ -24,4 +25,7 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ("username", "number")
     ordering      = ("email",)
 
-admin.site.register(User, CustomUserAdmin)
+
+@admin.register(UserProfile)
+class ProfileAdmin(admin.ModelAdmin):
+    pass

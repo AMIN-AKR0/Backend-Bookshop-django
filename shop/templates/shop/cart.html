@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load tag_library %}
+{% load static %}
+{% block title %}Cart Page{% endblock %}
+{% block content %}
+<!-- Section Start -->
+<div class="breadcrumb-wrapper bg-cover section-padding"
+    style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+    <div class="container">
+        <div class="page-heading">
+            <h1>Cart</h1>
+            <div class="page-header">
+                <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                    <li>
+                        <a href="{% url 'home:home' %}">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li>
+                        <a href="shop.html">
+                            Shop
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li>
+                        Cart
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Shop Cart Section Start -->
+<div class="cart-section section-padding">
+    <div class="container">
+        <div class="main-cart-wrapper">
+        {% if cart_items %}
+            <div class="row g-5">
+                <div class="col-xl-9">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart_item in cart_items %}
+                                    <tr>
+                                        <td>
+                                            <span class="d-flex gap-5 align-items-center">
+                                                <a href="{% url 'shop:delete_cart' slug=cart_item.book.slug %}" class="remove-icon">
+                                                    <img src="{% static 'assets/img/icon/icon-9.svg' %}" alt="img">
+                                                </a>
+                                                <span class="cart">
+                                                    <a href="{{ cart_item.book.get_absolute_url }}">
+                                                        <img src="{{ cart_item.book.image.url }}" alt="{{ cart_item.book.title }}" height="100" width="80">
+                                                    </a>
+                                                </span>
+                                                <span class="cart-title">
+                                                    <a href="{{ cart_item.book.get_absolute_url }}">
+                                                        {{ cart_item.book.title }}
+                                                    </a>
+                                                </span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="cart-price">${{ cart_item.book.price }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="quantity-basket">
+                                                <span class="qty">
+                                                    <a>{{ cart_item.quantity }}</a>
+                                                </span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="subtotal-price">${{ cart_item.book.price | get_item_price:cart_item.quantity }}</span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-xl-3">
+                    <div class="table-responsive cart-total">
+                        <table class="table style-2">
+                            <thead>
+                                <tr>
+                                    <th>Cart Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class="d-flex gap-5 align-items-center justify-content-between">
+                                            <span class="sub-title">Subtotal:</span>
+                                            <span class="sub-price">${{ cart_items | get_total_price }}</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="d-flex gap-5 align-items-center  justify-content-between">
+                                            <span class="sub-title">Taxes:</span>
+                                            <span class="sub-text">
+                                                ${{ cart_items | get_taxes }}
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="d-flex gap-5 align-items-center  justify-content-between">
+                                            <span class="sub-title">Total: </span>
+                                            <span class="sub-price sub-price-total">${{ cart_items | get_final_price }}</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="checkout.html" class="theme-btn style-2">Proceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            {% if not_authenticated %}
+                <div class="empty-cart">
+                    You Dont Have A Cart Please  <a class="" href="{% url 'accounts:login' %}">Login</a>  First :(
+                </div>
+
+            {% else %}
+                <div class="empty-cart">
+                    No Items in Your Cart :(
+                </div>
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block style %}
+    {{ block.super }}
+    <style>
+        .empty-cart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            text-align: center;
+            font-size: 21px;
+            font-weight: 500;
+        }
+        .empty-cart a{
+            display: inline-block;
+            margin: 0 6px;
+        }
+    </style>
+{% endblock %}

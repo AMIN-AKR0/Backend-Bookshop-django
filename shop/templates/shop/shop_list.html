@@ -1,0 +1,26 @@
+{% load tag_library %}
+{% for book in books %}
+    <div class="shop-list-items">
+        <div class="shop-list-thumb">
+            <img src="{{ book.image.url }}" alt="{{ book.title }}" height="200" width="150">
+        </div>
+        <div class="shop-list-content">
+            <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
+            <h5>${{ book.price }}</h5>
+            <div class="star">
+                {% if book.reviews.all %}
+                    {% for i in "12345" %}
+                        {% if i|to_int <= book.avg_rating %}
+                            <i class="fa-solid fa-star"></i>
+                        {% else %}
+                            <i class="fa-regular fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <p>
+                {{ book.description|truncatechars:200 }} ...
+            </p>
+        </div>
+    </div>
+{% endfor %}

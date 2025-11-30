@@ -460,42 +460,6 @@ Description: Bookim - Book Store HTML Template
       });
     });
 
-    //12. Quantity
-    const inputs = document.querySelectorAll("#qty, #qty2, #qty3");
-    const btnminus = document.querySelectorAll(".qtyminus");
-    const btnplus = document.querySelectorAll(".qtyplus");
-
-    if (inputs.length > 0 && btnminus.length > 0 && btnplus.length > 0) {
-      inputs.forEach(function (input, index) {
-        const min = Number(input.getAttribute("min"));
-        const max = Number(input.getAttribute("max"));
-        const step = Number(input.getAttribute("step"));
-
-        function qtyminus(e) {
-          const current = Number(input.value);
-          const newval = current - step;
-          if (newval < min) {
-            newval = min;
-          } else if (newval > max) {
-            newval = max;
-          }
-          input.value = Number(newval);
-          e.preventDefault();
-        }
-
-        function qtyplus(e) {
-          const current = Number(input.value);
-          const newval = current + step;
-          if (newval > max) newval = max;
-          input.value = Number(newval);
-          e.preventDefault();
-        }
-
-        btnminus[index].addEventListener("click", qtyminus);
-        btnplus[index].addEventListener("click", qtyplus);
-      });
-    }
-
     // 13.Back to top btn
     $(window).scroll(function () {
       if ($(this).scrollTop() > 20) {

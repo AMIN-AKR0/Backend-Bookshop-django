@@ -1,5 +1,5 @@
 import random
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from accounts.forms import LoginForm, SignupForm, RegisterForm
 from accounts.models import User, Register
@@ -43,9 +43,6 @@ def register_page(request):
     if not 'number_register' in request.session or not 'username' in request.session or not 'password' in request.session:
         return redirect('accounts:signup')
 
-    if number is None:
-        return redirect('accounts:signup')
-
     if not Register.objects.filter(phone_number=number).exists():
         code     = str(random.randint(10000, 99999))
         register = Register.objects.create(phone_number=number, code=code)
@@ -55,7 +52,7 @@ def register_page(request):
     print(register.code)
 
     if request.method != 'POST':
-        return render(request, 'accounts/signup_page.html', {'form': form})
+        return render(request, 'accounts/signup_page.html', {'form': form, 'number': number})
 
 
     if form.is_valid():
@@ -83,7 +80,7 @@ def register_page(request):
             register.delete()
             return redirect('home:home')
 
-    return render(request, 'accounts/signup_page.html', {'form': form})
+    return render(request, 'accounts/signup_page.html', {'form': form, 'number': number})
 
 def login_page(request):
     form = LoginForm(request.POST or None)
