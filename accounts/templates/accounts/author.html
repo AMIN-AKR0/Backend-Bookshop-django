@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tag_library %}
+{% block title %}{{ author.first_name }} {{ author.last_name }}{% endblock %}
+{% block content %}
+
+<!-- Section Start -->
+<div class="breadcrumb-wrapper bg-cover section-padding"
+     style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+    <div class="container">
+        <div class="page-heading">
+            <h1>Author Profile</h1>
+            <div class="page-header">
+                <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                    <li>
+                        <a href="{% url 'home:home' %}">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li>
+                        <a>
+                            User
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li>
+                        <a>
+                            Author
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li>
+                        {{ author.first_name }} {{ author.last_name }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Team Details Section Start -->
+<section class="team-details-section fix section-padding">
+    <div class="container">
+        <div class="team-details-wrapper">
+            <div class="team-details-items">
+                <div class="details-image wow fadeInUp" data-wow-delay=".3s">
+                    {% if author.user.profile.profile_pic %}
+                        <img src="{{ author.user.profile.profile_pic.url }}" alt="img">
+                    {% else %}
+                        <img src="{% static 'assets/img/default.jpg' %}" alt="img">
+                    {% endif %}
+                </div>
+                <div class="details-content wow fadeInUp" data-wow-delay=".5s">
+                    <h3>Author: {{ author.first_name }} {{ author.last_name }}</h3>
+                    <span>{{ author.century }}</span>
+                    <div class="social-icon d-flex align-items-center">
+                        {% if author.social_links.facebook_url %}
+                            <a href="{{ author.social_links.facebook_url }}"><i class="fab fa-facebook-f"></i></a>
+                        {% endif %}
+                        {% if author.social_links.x_url %}
+                            <a href="{{ author.social_links.x_url }}"><i class="fab fa-x"></i></a>
+                        {% endif %}
+                        {% if author.social_links.youtube_url %}
+                            <a href="{{ author.social_links.youtube_url }}"><i class="fab fa-youtube"></i></a>
+                        {% endif %}
+                        {% if author.social_links.linkedin_url %}
+                            <a href="{{ author.social_links.linkedin_url }}"><i class="fab fa-linkedin-in"></i></a>
+                        {% endif %}
+                        {% if author.social_links.telegram_url %}
+                        <a href="{{ author.social_links.telegram_url }}"><i class="fab fa-telegram"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <p class="wow fadeInUp" data-wow-delay=".7s">
+                {{ author.bio }}
+            </p>
+            <div class="details-counter-area">
+                <div class="counter-items wow fadeInUp" data-wow-delay=".3s">
+                    <h2><span class="count">{{ author.books.count }}</span></h2>
+                    <p>Books</p>
+                </div>
+                <div class="counter-items wow fadeInUp" data-wow-delay=".7s">
+                    <h2><span class="count">{% count_reviews author.books %}</span></h2>
+                    <p>Review</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Shop Section Start -->
+{% if author.books.all %}
+    <section class="shop-section fix section-padding pt-0">
+        <div class="container">
+            <div class="section-title wow fadeInUp" data-wow-delay=".3s">
+                <h2>Books By {{ author.first_name }} {{ author.last_name }}</h2>
+            </div>
+            <div class="swiper book-slider">
+                <div class="swiper-wrapper">
+                    {% for book in author.books.all %}
+                        <div class="swiper-slide">
+                            <div class="shop-box-items style-2">
+                                <div class="book-thumb center">
+                                    <a href="{{ book.get_absolute_url }}"><img src="{{ book.image.url }}" alt=""></a>
+                                </div>
+                                <div class="shop-content">
+                                    <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
+                                    <ul class="price-list">
+                                        <li>${{ book.price }}</li>
+                                    </ul>
+                                    <ul class="author-post">
+                                        <li class="authot-list">
+                                            <span class="thumb">
+                                                {% if author.user.profile.profile_pic %}
+                                                    <img src="{{ author.user.profile.profile_pic.url }}" height="50" width="50" alt="">
+                                                {% else %}
+                                                    <img src="{% static 'assets/img/default.jpg' %}" alt="" height="50" width="50">
+                                                {% endif %}
+                                            </span>
+                                            <span class="content">{{ author.first_name }} {{ author.last_name }}</span>
+                                        </li>
+                                        {% if book.avg_rating %}
+                                            <li class="star">
+                                                {% for i in '12345' %}
+                                                    {% if i|to_int <= book.avg_rating %}
+                                                        <i class="fa-solid fa-star"></i>
+                                                    {% else %}
+                                                        <i class="fa-regular fa-star"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+{% endblock %}

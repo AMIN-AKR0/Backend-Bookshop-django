@@ -280,7 +280,11 @@
                                         <div class="review-content">
                                             <div class="head-area d-flex flex-wrap gap-2 align-items-center justify-content-between">
                                                 <div class="cont">
-                                                    <h5><a href="news-details.html">{{ review.user.username }}</a></h5>
+                                                    {% if review.user.author.first_name %}
+                                                        <h5><a href="{% url 'accounts:author' slug=review.user.author.slug %}">{{ review.user.author.first_name }} {{ review.user.author.last_name }} (Author) </a></h5>
+                                                    {% else %}
+                                                        <h5>{{ review.user.username }}</h5>
+                                                    {% endif %}
                                                     <span>{{ review.date }}</span>
                                                 </div>
                                                 <div class="star">
@@ -360,13 +364,13 @@
                                 <ul class="author-post">
                                     <li class="authot-list">
                                         <span class="thumb">
-                                        {% if relate_book.author.profile_pic %}
-                                            <img src="{{ relate_book.author.profile_pic.url }}" alt="img" height="40" width="40">
+                                        {% if relate_book.author.user.profile.profile_pic %}
+                                            <img src="{{ relate_book.author.user.profile.profile_pic.url }}" alt="img" height="40" width="40">
                                         {% else %}
                                             <img src="{% static 'assets/img/default.jpg' %}" alt="img" height="40" width="40">
                                         {% endif %}
                                         </span>
-                                        <span class="content">{{ book.author.user.username }}</span>
+                                        <span class="content">{{ relate_book.author.first_name }} {{ relate_book.author.last_name }}</span>
                                     </li>
                                     {% if relate_book.reviews.all %}
                                         <div class="star">

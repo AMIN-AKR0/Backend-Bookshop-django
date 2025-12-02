@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 from django.db import models
 from django.urls import reverse
-from accounts.models import User, UserProfile
+from accounts.models import User, UserProfile, Author
 
 
 class Tag(models.Model):
@@ -72,11 +72,11 @@ class Book(models.Model):
     language     = models.CharField(max_length=100)
     dimensions	 = models.CharField(max_length=300, null=True, blank=True)
     weight       = models.CharField(max_length=300, null=True, blank=True)
-    author       = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    author       = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
     slug         = models.SlugField(max_length=300, unique=True, null=True, blank=True, editable=False)
     tags         = models.ManyToManyField(Tag, related_name='books', blank=True)
     categories   = models.ForeignKey(Category, related_name='books', on_delete=models.SET_NULL, null=True, blank=True)
-    century      = models.ForeignKey(Century, related_name='books', blank=True, null=True, on_delete=models.SET_NULL)
+    century      = models.ForeignKey(Century, related_name='books', blank=True, null=True, on_delete=models.SET_NULL, editable=False)
     online_store = models.ManyToManyField(OnlineStore, related_name='books', blank=True)
     avg_rating   = models.FloatField(default=0, editable=False)
     image        = models.ImageField(upload_to='books/', null=True, blank=True)
@@ -96,6 +96,9 @@ class Book(models.Model):
                 slug      = f"{base_slug}-{number}"
 
             self.slug = slug
+
+        self.century  = self.author.century
+
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

@@ -63,3 +63,11 @@ def update_query(request_get, **kwargs):
         qs[key] = value
 
     return qs.urlencode()
+
+@register.simple_tag
+def count_reviews(books):
+    count = 0
+    for book in books.all():
+        count += book.reviews.all().count()
+
+    return count

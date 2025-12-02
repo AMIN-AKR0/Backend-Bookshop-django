@@ -1,8 +1,8 @@
 import random
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from accounts.forms import LoginForm, SignupForm, RegisterForm
-from accounts.models import User, Register
+from accounts.models import User, Register, Author
 
 
 # Create your views here.
@@ -124,3 +124,7 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     return redirect('home:home')
+
+def author_page(request, slug):
+    author = get_object_or_404(Author, slug=slug)
+    return render(request, 'accounts/author.html', {'author': author})

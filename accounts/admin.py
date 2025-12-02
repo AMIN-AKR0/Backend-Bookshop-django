@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from accounts.models import User, UserProfile
+from accounts.models import User, UserProfile, Author, SocialLink
 
 
 # Register your models here.
@@ -28,4 +28,14 @@ class CustomUserAdmin(UserAdmin):
 
 @admin.register(UserProfile)
 class ProfileAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(SocialLink)
+class Admin(admin.ModelAdmin):
     pass
