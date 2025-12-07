@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tag_library %}
+
+{% block title %}Blog Page{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Blog</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            Blog
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Standard Section Start -->
+    <section class="news-standard fix section-padding">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-xl-9 col-lg-8">
+                    <div class="news-standard-wrapper">
+                        {% for article in articles %}
+                            <div class="news-standard-items">
+                                <div>
+                                    <img src="{{ article.cover.url }}" alt="" height="600" width="1000">
+                                </div>
+                                <div class="news-content">
+                                    <ul>
+                                        <li>
+                                            <i class="fas fa-calendar-alt"></i>
+                                            {{ article.created }}
+                                        </li>
+                                        <li>
+                                            <i class="far fa-user"></i>
+                                            By {{ article.author.first_name }} {{ article.author.last_name }}
+                                        </li>
+                                        <li>
+                                            <i class="far fa-eye"></i>
+                                            {{ article.views.count }} Views
+                                        </li>
+                                    </ul>
+                                    <h3>
+                                        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                                    </h3>
+                                    <p>
+                                        {{ article.content|truncatechars:450 }}
+                                    </p>
+                                    <a href="{{ article.get_absolute_url }}" class="theme-btn style-2 mt-4">
+                                        Read More
+                                        <i class="fa-solid fa-arrow-right-long"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="page-nav-wrap text-center wow fadeInUp" data-wow-delay=".3s">
+                            <ul>
+                                {% if articles.has_previous %}
+                                    <li><a class="previous" href="?{% update_query request.GET page=articles.previous_page_number %}">Previous</a></li>
+                                {% endif %}
+                                {% for page in articles.paginator.page_range %}
+                                    {% if page >= articles.number|add:'-2' and page <= articles.number|add:'2' %}
+                                        <li><a class="{% if page == articles.number %}next{% else %}page-numbers{% endif %}" href="?{% update_query request.GET page=page %}">{{ page }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if articles.has_next %}
+                                    <li><a class="next" href="?{% update_query request.GET page=articles.next_page_number %}">Next</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4">
+                    <div class="main-sidebar">
+                        <div class="nice-select" tabindex="0">
+                            <span class="current">
+                                {% if request.GET|get_sort_name %}
+                                    {{ request.GET | get_sort_name }}
+                                {% else %}
+                                    default
+                                {% endif %}
+                            </span>
+                            <ul class="list">
+                                <a href="?{% update_query request.GET sort='default' %}" class="option selected focus">
+                                    Default
+                                </a><br>
+                                <a href="?{% update_query request.GET sort='new' %}" class="option selected focus">
+                                    New
+                                </a><br>
+                                <a href="?{% update_query request.GET sort='old' %}" class="option selected focus">
+                                    Old
+                                </a><br>
+                                <a href="?{% update_query request.GET sort='most-view' %}" class="option selected focus">
+                                    Most View
+                                </a><br>
+                                <a href="?{% update_query request.GET sort='lowest-view' %}" class="option selected focus">
+                                    Lowest View
+                                </a><br>
+                            </ul>
+                        </div>
+                        <div class="single-sidebar-widget">
+                            <div class="wid-title">
+                                <h3>Search</h3>
+                            </div>
+                            <div class="search-widget">
+                                <form action="" method="get">
+                                    {% for key, value in request.GET.items %}
+                                        {% if key != 'search' %}
+                                            <input type="hidden" name="{{ key }}" value="{{ value }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                    <label>
+                                        <input type="text" placeholder="Search here" name="search" maxlength="50">
+                                    </label>
+                                    <button type="submit"><i class="fa-sharp fa-light fa-magnifying-glass"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="single-sidebar-widget">
+                            <div class="wid-title">
+                                <h3>Categories</h3>
+                            </div>
+                            <div class="news-widget-categories">
+                                {% for category in categories.all %}
+                                    <ul>
+                                        <li><a href="?{% update_query request.GET category=category.slug %}">{{ category.name }}</a> <span>({{ category.articles.count }})</span></li>
+                                    </ul>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="single-sidebar-widget">
+                            <div class="wid-title">
+                                <h3>Recent Post</h3>
+                            </div>
+                            <div class="recent-post-area">
+                                {% for related_article in related_articles %}
+                                    <div class="recent-items">
+                                        <div class="recent-thumb">
+                                            <img src="{{ related_article.cover.url }}" alt="" height="80" width="80">
+                                        </div>
+                                        <div class="recent-content">
+                                            <ul>
+                                                <li>
+                                                    <i class="fa-solid fa-calendar-days"></i>
+                                                    {{ related_article.created }}
+                                                </li>
+                                            </ul>
+                                            <h6>
+                                                <a href="{{ related_article.get_absolute_url }}">
+                                                    {{ related_article.title }}
+                                                </a>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

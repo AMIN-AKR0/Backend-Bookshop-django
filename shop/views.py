@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
 from shop.models import Cart, CartItem, Category
 from shop.models import Book, Review
 
@@ -10,8 +10,11 @@ def shop(request):
     categories = Category.objects.order_by('-id')[:10]
     format_page = 'default'
 
-    if request.GET.get('format') and request.GET.get('format') == 'list':
-        format_page = 'list'
+    if request.GET.get('category'):
+        category_slug = request.GET['category']
+        if Category.objects.filter(slug=category_slug).exists():
+            category   = Category.objects.get(slug=category_slug)
+            books_list = books_list.filter(categories=category)
 
     if request.GET.get('sort'):
         if request.GET['sort'] == 'new':
@@ -23,15 +26,12 @@ def shop(request):
         elif request.GET['sort'] == 'high-price':
             books_list = books_list.order_by('-price')
 
-    if request.GET.get('category'):
-        category_slug = request.GET['category']
-        if Category.objects.filter(slug=category_slug).exists():
-            category   = Category.objects.get(slug=category_slug)
-            books_list = books_list.filter(categories=category)
-
     if request.GET.get('search'):
         search = request.GET['search']
         books_list = books_list.filter(title__icontains=search)
+
+    if request.GET.get('format') and request.GET.get('format') == 'list':
+        format_page = 'list'
 
     paginator = Paginator(books_list, 20)
     page      = request.GET.get('page')

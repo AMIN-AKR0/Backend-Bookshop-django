@@ -3765,9 +3765,10 @@ span {
   position: relative;
 }
 .news-standard-wrapper .news-standard-items .news-thumb img {
-  width: 100%;
-  height: 100%;
+  width: 10%;
+  height: 10%;
 }
+
 .news-standard-wrapper .news-standard-items .news-thumb .post {
   position: absolute;
   top: 20px;

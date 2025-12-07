@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tag_library %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Article Details</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a href="{% url 'blog:blog' %}">
+                                Blog
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            {{ article.title }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Details Section Start -->
+    <section class="news-details fix section-padding">
+        <div class="container">
+            <div class="news-details-area">
+                <div class="row g-5">
+                    <div class="col-xl-9 col-lg-8">
+                        <div class="blog-post-details">
+                            <div class="single-blog-post">
+                                <div class="post-featured-thumb bg-cover"
+                                    style="background-image: url('{{ article.cover.url }}');"></div>
+                                <div class="post-content">
+                                    <ul class="post-list d-flex align-items-center">
+                                        <li>
+                                            <i class="fa-light fa-user"></i>
+                                            By {{ article.author.first_name }} {{ article.author.last_name }}
+                                        </li>
+                                        <li>
+                                            <i class="fa-sharp fa-regular fa-comments"></i>
+                                            {{ article.comments.count }} Comments
+                                        </li>
+                                        <li>
+                                            <i class="fa-sharp fa-regular fa-eye"></i>
+                                            {{ article.views.count }} Views
+                                        </li>
+                                    </ul>
+                                    <h3>{{ article.title }}</h3>
+                                    <p class="mb-3">
+                                        {{ article.content }}
+                                    </p>
+                                    <div class="row g-4 mt-4">
+                                        {% for image in article.images.all %}
+                                            <div class="col-lg-6">
+                                                <div>
+                                                    <img src="{{ image.image.url }}" alt="" height="300" width="500">
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if article.comments.all or request.user.is_authenticated %}
+                                {% if article.comments.all %}
+                                    <div class="comments-area">
+                                        <div class="comments-heading">
+                                            <h3>{{ article.comments.count }} Comments</h3>
+                                        </div>
+                                        {% for comment in article.comments.all %}
+                                            <div class="blog-single-comment d-flex gap-4 pt-4 pb-5">
+                                                <div class="image">
+                                                    {% if comment.user.profile.profile_pic %}
+                                                        <img src="{{ comment.user.profile.profile_pic.url }}" alt="" height="100" width="100">
+                                                    {% else %}
+                                                        <img src="{% static 'assets/img/default.jpg' %}" alt="" height="100" width="100">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="content">
+                                                    <div
+                                                        class="head d-flex flex-wrap gap-2 align-items-center justify-content-between">
+                                                        <div class="con">
+                                                            {% if comment.user.profile.author %}
+                                                            <h5><a href="{% url 'accounts:author' slug=comment.user.author.slug %}">{{ comment.user.author.first_name }} {{ comment.user.author.last_name }}</a></h5>
+                                                            {% else %}
+                                                                <h5>{{ comment.user.username }}</h5>
+                                                            {% endif %}
+                                                            <span>{{ comment.created }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="mt-30 mb-4">
+                                                        {{ comment.message }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% if request.user.is_authenticated %}
+                                    <div class="comment-form-wrap pt-5">
+                                        <h3>Send a comment:</h3>
+                                        <form action="{% url 'blog:add_comment' slug=article.slug %}" id="contact-form2" method="POST">
+                                            {% csrf_token %}
+                                            <div class="row g-4">
+                                                <div class="col-lg-12">
+                                                    <div class="form-clt">
+                                                        <label>
+                                                            <span>Write Your Comment:</span>
+                                                            <textarea name="message" placeholder="Write Your Comment here..."></textarea>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <button type="submit" class="theme-btn style-2">
+                                                        Send comment<i class="fa-solid fa-arrow-right-long"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="main-sidebar">
+                            <div class="single-sidebar-widget">
+                                <div class="wid-title">
+                                    <h3>Categories</h3>
+                                </div>
+                                <div class="news-widget-categories">
+                                    {% for category in categories %}
+                                        <ul>
+                                            <li><a href="{% url 'blog:blog' %}?category={{ category.slug }}">{{ category.name }}</a> <span>({{ category.articles.count }})</span></li>
+                                        </ul>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="single-sidebar-widget">
+                                <div class="wid-title">
+                                    <h3>Recent Post</h3>
+                                </div>
+                                <div class="recent-post-area">
+                                    {% for related_article in related_articles %}
+                                        <div class="recent-items">
+                                            <div class="recent-thumb">
+                                                <img src="{{ related_article.cover.url }}" alt="" height="100" width="100">
+                                            </div>
+                                            <div class="recent-content">
+                                                <ul>
+                                                    <li>
+                                                        <i class="fa-solid fa-calendar-days"></i>
+                                                        {{ related_article.created }}
+                                                    </li>
+                                                </ul>
+                                                <h6>
+                                                    <a href="{{ related_article.get_absolute_url }}">
+                                                        {{ related_article.title }}
+                                                    </a>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script>
+        if (!localStorage.getItem("user_token")) {
+            let token = document.cookie.match(/user_token=([^;]+)/);
+            if(token){
+                localStorage.setItem("user_token", token[1]);
+            }
+        }
+    </script>
+{% endblock %}
