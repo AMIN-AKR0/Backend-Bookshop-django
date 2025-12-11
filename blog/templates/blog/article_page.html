@@ -51,8 +51,9 @@
                                 <div class="post-content">
                                     <ul class="post-list d-flex align-items-center">
                                         <li>
-                                            <i class="fa-light fa-user"></i>
+                                            <i class="fa-light fa-user"></i><a href={% url 'accounts:author' slug=article.author.slug %}>
                                             By {{ article.author.first_name }} {{ article.author.last_name }}
+                                        </a>
                                         </li>
                                         <li>
                                             <i class="fa-sharp fa-regular fa-comments"></i>

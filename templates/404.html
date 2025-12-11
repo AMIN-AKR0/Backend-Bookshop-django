@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Error</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            404 Error
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Section Start -->
+    <section class="Error-section section-padding fix">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="error-items">
+                        <div class="error-image wow fadeInUp" data-wow-delay=".3s">
+                            <img src="{% static 'assets/img/404.png' %}">
+                        </div>
+                        <h2 class="wow fadeInUp" data-wow-delay=".5s">
+                            <span>Oops!</span> Page not found
+                        </h2>
+                        <p class="wow fadeInUp" data-wow-delay=".7s">The page you are looking for does not exist</p>
+                        <a href="{% url 'home:home' %}" class="theme-btn style-2 wow fadeInUp" data-wow-delay=".8s">
+                            Back to Home Pages
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -91,14 +91,22 @@
                     <h2><span class="count">{% count_reviews author.books %}</span></h2>
                     <p>Review</p>
                 </div>
+                <div class="counter-items wow fadeInUp" data-wow-delay=".3s">
+                    <h2><span class="count">{{ author.articles.count }}</span></h2>
+                    <p>Articles</p>
+                </div>
+                <div class="counter-items wow fadeInUp" data-wow-delay=".7s">
+                    <h2><span class="count">{% count_comment author.articles %}</span></h2>
+                    <p>Comment</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Shop Section Start -->
-{% if author.books.all %}
-    <section class="shop-section fix section-padding pt-0">
+<section class="shop-section fix section-padding pt-0">
+    {% if author.books.all %}
         <div class="container">
             <div class="section-title wow fadeInUp" data-wow-delay=".3s">
                 <h2>Books By {{ author.first_name }} {{ author.last_name }}</h2>
@@ -146,7 +154,44 @@
                 </div>
             </div>
         </div>
-    </section>
-{% endif %}
+    {% endif %}
+<br><br><br><br><br><br>
+    {% if author.articles.all %}
+        <div class="container">
+            <div class="section-title wow fadeInUp" data-wow-delay=".3s">
+                <h2>Article By {{ author.first_name }} {{ author.last_name }}</h2>
+            </div>
+            <div class="swiper book-slider">
+                <div class="swiper-wrapper">
+                    {% for article in author.articles.all %}
+                        <div class="swiper-slide">
+                            <div class="shop-box-items style-2">
+                                <div class="book-thumb center">
+                                    <a href="{{ article.get_absolute_url }}"><img src="{{ article.cover.url }}" alt=""></a>
+                                </div>
+                                <div class="shop-content">
+                                    <h3><a href="{{article.get_absolute_url }}">{{ article.title }}</a></h3>
+                                    <ul class="author-post">
+                                        <li class="authot-list">
+                                            <span class="thumb">
+                                                {% if author.user.profile.profile_pic %}
+                                                    <img src="{{ author.user.profile.profile_pic.url }}" height="50" width="50" alt="">
+                                                {% else %}
+                                                    <img src="{% static 'assets/img/default.jpg' %}" alt="" height="50" width="50">
+                                                {% endif %}
+                                            </span>
+                                            <span class="content">{{ author.first_name }} {{ author.last_name }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</section>
+
 
 {% endblock %}

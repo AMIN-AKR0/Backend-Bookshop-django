@@ -1,3 +1,4 @@
+import uuid
 from datetime import timedelta
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
 from django.db import models
@@ -85,6 +86,25 @@ class Register(models.Model):
     def delete_expired(self):
         if self.is_expired():
             self.delete()
+
+
+class EmailResetPassword(models.Model):
+    user       = models.ForeignKey(User, on_delete=models.CASCADE)
+    token      = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    used       = models.BooleanField(default=False)
+
+    def is_expired(self):
+        return not self.used and (timezone.now() - self.created_at) > timedelta(minutes=30)
+
+
+class PhoneResetPassword(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=5)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_expired(self):
+        return (timezone.now() - self.created_at) > timedelta(minutes=5)
 
 
 class SocialLink(models.Model):

@@ -71,3 +71,11 @@ def count_reviews(books):
         count += book.reviews.all().count()
 
     return count
+
+@register.simple_tag
+def count_comment(articles):
+    count = 0
+    for article in articles.all():
+        count += article.comments.count()
+
+    return count

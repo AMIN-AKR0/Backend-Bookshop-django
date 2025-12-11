@@ -1,5 +1,6 @@
 from django import forms
 from accounts.models import User
+from django.contrib.auth.password_validation import validate_password
 
 class AccountForm(forms.Form):
     def clean_email(self):
@@ -53,10 +54,24 @@ class AccountForm(forms.Form):
         return value.isdigit() and len(value) == 11
 
 
-class SignupForm(AccountForm):
-    email     = forms.EmailField(max_length=254, required=False, widget=forms.EmailInput())
+class SignupForm1(AccountForm):
+    number = forms.CharField(max_length=13, required=True, widget=forms.TextInput())
+
+    def clean(self):
+
+        cleaned = super().clean()
+
+        number    = cleaned.get('number')
+
+        if not self.is_number(number):
+            self.add_error('number', 'Invalid number')
+
+        if User.objects.filter(number=number).exists():
+            self.add_error('number', 'Number already registered')
+
+
+class SignupForm2(AccountForm):
     username  = forms.CharField(max_length=30, required=True, widget=forms.TextInput())
-    number    = forms.CharField(max_length=13, required=True, widget=forms.TextInput())
     password  = forms.CharField(widget=forms.PasswordInput())
     password2 = forms.CharField(widget=forms.PasswordInput())
 
@@ -67,41 +82,29 @@ class SignupForm(AccountForm):
         else:
             return True
 
+    def clean_password(self):
+        password = self.cleaned_data['password']
+
+        validate_password(password)
+        return password
+
+
     def clean(self):
 
         cleaned = super().clean()
 
-        email     = cleaned.get('email')
         username  = cleaned.get('username')
-        number    = cleaned.get('number')
         password  = cleaned.get('password')
         password2 = cleaned.get('password2')
 
-        if not number or not username  or not password or not password2:
-            self.add_error("number", "Phone number and username and password are required")
-
         if not self.password_chek(password, password2):
             self.add_error('password', "your Passwords don't match")
-        if email:
-            if not self.is_email(email):
-                self.add_error('email', 'Invalid email')
 
         if not self.is_username(username):
             self.add_error('username', 'Invalid username')
 
-
-        if not self.is_number(number):
-            self.add_error('number', 'Invalid number')
-
-        if email:
-            if User.objects.filter(email=email).exists():
-                self.add_error('email', 'Email already registered')
-
         if User.objects.filter(username=username).exists():
             self.add_error('username', 'Username already registered')
-
-        if User.objects.filter(number=number).exists():
-            self.add_error('number', 'Number already registered')
 
 
 class LoginForm(AccountForm):
@@ -144,3 +147,68 @@ class RegisterForm(AccountForm):
             self.add_error('code', 'Invalid code')
             return None
         return code.strip().replace(" ", "")
+
+
+class NumberValidation(AccountForm):
+    number_code = forms.CharField(max_length=5, required=True, widget=forms.TextInput(), label="number_code")
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        if not code:
+            self.add_error('code', 'Invalid code')
+            return None
+        return code.strip().replace(" ", "")
+
+
+class ForgotPasswordForm(AccountForm):
+    email_or_number = forms.CharField(max_length=254, required=True, widget=forms.TextInput(), label="email_or_number")
+
+    def clean(self):
+        cleaned = super().clean()
+
+        email_or_number = cleaned.get('email_or_number')
+
+        if email_or_number.startswith("+") or email_or_number.startswith("-"):
+            email_or_number = email_or_number[1:]
+            if email_or_number.startswith("98"):
+                email_or_number = "0" + email_or_number[2:]
+
+        if not email_or_number:
+            self.add_error('email_or_number', 'Phone number and username are required')
+
+        if self.is_number(email_or_number):
+            cleaned['number'] = email_or_number
+
+        elif self.is_email(email_or_number):
+            cleaned['email'] = email_or_number
+
+        else:
+            self.add_error('email_or_number', 'Invalid email or number')
+
+        cleaned.pop('email_or_number', None)
+        return cleaned
+
+
+class ResetPasswordForm(AccountForm):
+    password  = forms.CharField(widget=forms.PasswordInput())
+    password2 = forms.CharField(widget=forms.PasswordInput())
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+
+        validate_password(password)
+        return password
+
+    def clean(self):
+        cleaned = super().clean()
+
+        password  = cleaned.get('password')
+        password2 = cleaned.get('password2')
+
+        if not password or not password2:
+            self.add_error('password', 'password is required')
+
+        if password != password2:
+            self.add_error('password2', "your Passwords don't match")
+
+        return cleaned
