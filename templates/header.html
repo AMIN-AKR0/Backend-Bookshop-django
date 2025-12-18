@@ -56,12 +56,12 @@
                                             Blog
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="contact.html">Contact</a>
-                                    </li>
                                     {% if request.user.is_authenticated %}
                                     <li>
-                                        <a href="">Account</a>
+                                        <a href="{% url 'shop:orders' %}">Orders</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'accounts:profile' %}">Account</a>
                                     </li>
                                     {% else %}
                                     <li>

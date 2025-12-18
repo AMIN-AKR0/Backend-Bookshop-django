@@ -296,7 +296,7 @@ Description: Bookim - Book Store HTML Template
         const modal = $("#exampleModal");
 
         // Show the modal
-        modal.modal("show");
+        // modal.modal("show");
 
         // Remove aria-hidden when the modal is shown
         modal.on("shown.bs.modal", function () {

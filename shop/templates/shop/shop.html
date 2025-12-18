@@ -63,6 +63,12 @@
                                         <a href="?{% update_query request.GET sort='high-price' %}" class="option selected focus">
                                             high price
                                         </a><br>
+                                        <a href="?{% update_query request.GET sort='most-sale' %}" class="option selected focus">
+                                            most sale
+                                        </a><br>
+                                        <a href="?{% update_query request.GET sort='low-sale' %}" class="option selected focus">
+                                            low sale
+                                        </a><br>
                                     </ul>
                                 </div>
                                 <div class="icon{% if format == 'list' %} active {% endif %}">

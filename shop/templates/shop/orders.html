@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your orders{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Your Orders</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a href="{% url 'shop:shop' %}">
+                                Shop
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            Orders
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Cart Section Start -->
+    <div class="cart-section section-padding">
+        <div class="container">
+            <div class="main-cart-wrapper">
+                {% if orders %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order Number</th>
+                                            <th>Time</th>
+                                            <th>Status</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders %}
+                                            <tr>
+                                                <td>
+                                                    <span class="d-flex gap-5 align-items-center">
+                                                        <span class="cart-title">
+                                                            {{ order.order_number }}
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="cart-price">{{ order.created_at }}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="stock-title">
+                                                        {{ order.status }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="subtotal-price">${{ order.total_amount }}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-flex gap-5 align-items-center">
+                                                        <span class="cart-title">
+                                                            <a href="{% url 'shop:order-detail' order_number=order.order_number %}">View Details <i class="fa-solid fa-arrow-right-long"></i></a>
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    {% if not_authenticated %}
+                        <div class="not-order">
+                            For see your orders <a class="" href="{% url 'accounts:login' %}">Login</a> First :(
+                        </div>
+                    {% else %}
+                        <div class="not-order">
+                            You Dont Hove Order :(
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .not-order {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            text-align: center;
+            font-size: 21px;
+            font-weight: 500;
+        }
+        .not-order a{
+            display: inline-block;
+            margin: 0 6px;
+        }
+    </style>
+{% endblock %}

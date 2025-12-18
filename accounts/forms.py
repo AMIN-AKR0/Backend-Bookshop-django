@@ -1,23 +1,37 @@
 from django import forms
 from accounts.models import User
 from django.contrib.auth.password_validation import validate_password
+from PIL import Image
 
 class AccountForm(forms.Form):
     def clean_email(self):
-        if self.cleaned_data.get('email'):
-            email       = self.cleaned_data.get('email')
-            email_clean = email.strip().lower().replace(" ", "")
+        email       = self.cleaned_data.get('email')
+        email_clean = email.strip().lower().replace(" ", "")
 
-            if email_clean.startswith("www."):
-                email_clean = email_clean[4:]
+        if len(email_clean) < 10:
+            self.add_error('email', 'Please enter a valid email address.')
 
-            return email_clean
-        else:
-            return None
+        if len(email_clean) > 254:
+            self.add_error('email', 'Please enter a valid email address.')
+
+        if email_clean.startswith("www."):
+            email_clean = email_clean[4:]
+
+        return email_clean
 
     def clean_username(self):
         username       = self.cleaned_data.get('username')
         username_clean = username.strip().replace(" ", "").replace("@", "").replace("www.", "").replace("+", "").replace("-", "")
+
+        if len(username_clean) < 5:
+            self.add_error('username', 'Please enter a longer username.')
+
+        if len(username_clean) > 30:
+            self.add_error('username', 'Please enter a smaller username.')
+
+        if username.isdigit():
+            self.add_error('username', 'Username must have letters.')
+
         return username_clean
 
     def clean_password(self):
@@ -42,6 +56,9 @@ class AccountForm(forms.Form):
         if not cleaned_number.startswith("09"):
             self.add_error("number", "Number must start with 09... or 98...")
 
+        if len(cleaned_number) != 11:
+            self.add_error("number", "Number must contain 11 digits")
+
         return cleaned_number
 
     def is_email(self, email: str) -> bool:
@@ -53,18 +70,29 @@ class AccountForm(forms.Form):
     def is_number(self, value: str) -> bool:
         return value.isdigit() and len(value) == 11
 
+    def clean_picture(self):
+        picture = self.cleaned_data.get('picture')
+
+        if not picture:
+            return picture
+
+        max_size = 4
+        if picture.size > max_size * 1024 * 1024:
+            self.add_error('picture', 'Image must be smaller than the 4 megabytes.')
+
+        img = Image.open(picture)
+
+        if img.format not in ['JPEG', 'PNG', 'GIF']:
+            self.add_error('picture', 'Profile Picture must be an image.')
+
+        return picture
+
 
 class SignupForm1(AccountForm):
     number = forms.CharField(max_length=13, required=True, widget=forms.TextInput())
 
     def clean(self):
-
-        cleaned = super().clean()
-
-        number    = cleaned.get('number')
-
-        if not self.is_number(number):
-            self.add_error('number', 'Invalid number')
+        number = self.clean_number()
 
         if User.objects.filter(number=number).exists():
             self.add_error('number', 'Number already registered')
@@ -93,7 +121,7 @@ class SignupForm2(AccountForm):
 
         cleaned = super().clean()
 
-        username  = cleaned.get('username')
+        username  = self.clean_username()
         password  = cleaned.get('password')
         password2 = cleaned.get('password2')
 
@@ -212,3 +240,11 @@ class ResetPasswordForm(AccountForm):
             self.add_error('password2', "your Passwords don't match")
 
         return cleaned
+
+
+class ChengProfilePicForm(AccountForm):
+    picture = forms.ImageField()
+
+
+class AddEmailForm(AccountForm):
+    email = forms.EmailField(max_length=254, required=True, widget=forms.TextInput(), label="email")

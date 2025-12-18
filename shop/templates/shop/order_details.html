@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Cart</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a href="{% url 'shop:shop' %}">
+                                Shop
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a href="{% url 'shop:orders' %}">
+                                Orders
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            {{ order.order_number }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Cart Section Start -->
+    <div class="cart-section section-padding">
+        <div class="container">
+            <div class="main-cart-wrapper">
+                <div class="row g-5">
+                    <div class="col-xl-9">
+                        <div class="table-responsive">
+                            <h2 class="mb-3">Item Details:</h2>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Book</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in order.items.all %}
+                                        <tr>
+                                            <td>
+                                                <span class="d-flex gap-5 align-items-center">
+                                                    <span class="cart">
+                                                        <a href="{{ item.book.get_absolute_url }}"><img src="{{ item.book.image.url }}" alt="" height="100" width="80"></a>
+                                                    </span>
+                                                    <span class="cart-title">
+                                                        <a href="{{ item.book.get_absolute_url }}">{{ item.book.title }}</a>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="cart-price">${{ item.book.price }}</span>
+                                            </td>
+                                            <td>
+                                                <span class="quantity-basket">
+                                                    <span class="qty">{{ item.quantity }}</span>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="subtotal-price">${{ item.price }}</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <h2 class="mb-3">Other Details:</h2>
+                            <table class="info-table">
+                                <tr>
+                                  <td class="title">Order Number:</td>
+                                  <td class="value">{{ order.order_number }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="title">Your Name:</td>
+                                  <td class="value">{{ order.customer_name }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="title">Phone Number:</td>
+                                  <td class="value">{{ order.phone_number2 }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="title">Address:</td>
+                                  <td class="value">{{ order.address }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="title">Postal Code:</td>
+                                  <td class="value">{{ order.postal_code }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="title">Status:</td>
+                                  <td class="value">{{ order.status }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        {% if order.status == 'paid' or order.status == 'shipped' %}
+                            <div class="cart-wrapper-footer">
+                                <a href="{% url 'shop:order-change' order_number=order.order_number %}" class="theme-btn">
+                                    Change Details <i class="fa-solid fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="table-responsive cart-total">
+                            <table class="table style-2">
+                                <thead>
+                                    <tr>
+                                        <th>Order payment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span class="d-flex gap-5 align-items-center justify-content-between">
+                                                <span class="sub-title">Subtotal:</span>
+                                                <span class="sub-price">${{ order.get_total_price }}</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="d-flex gap-5 align-items-center  justify-content-between">
+                                                <span class="sub-title">Taxes:</span>
+                                                <span class="sub-text">
+                                                    ${{ order.get_taxes }}
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="d-flex gap-5 align-items-center  justify-content-between">
+                                                <span class="sub-title">Total: </span>
+                                                <span class="sub-price sub-price-total">${{ order.total_amount }}</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .info-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .info-table td {
+          padding: 10px 0;
+        }
+
+        .info-table tr {
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-table tr:last-child {
+          border-bottom: none;
+        }
+
+        .title {
+          text-align: left;
+          color: #555;
+        }
+
+        .value {
+          text-align: right;
+          font-weight: 500;
+        }
+    </style>
+{% endblock %}

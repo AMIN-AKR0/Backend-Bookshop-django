@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load tag_library %}
 {% load static %}
 {% block title %}Cart Page{% endblock %}
 {% block content %}
@@ -84,7 +83,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="subtotal-price">${{ cart_item.book.price | get_item_price:cart_item.quantity }}</span>
+                                            <span class="subtotal-price">${{ cart_item.get_item_price }}</span>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -105,7 +104,7 @@
                                     <td>
                                         <span class="d-flex gap-5 align-items-center justify-content-between">
                                             <span class="sub-title">Subtotal:</span>
-                                            <span class="sub-price">${{ cart_items | get_total_price }}</span>
+                                            <span class="sub-price">${{ cart.get_total_price }}</span>
                                         </span>
                                     </td>
                                 </tr>
@@ -114,7 +113,7 @@
                                         <span class="d-flex gap-5 align-items-center  justify-content-between">
                                             <span class="sub-title">Taxes:</span>
                                             <span class="sub-text">
-                                                ${{ cart_items | get_taxes }}
+                                                ${{ cart.get_taxes }}
                                             </span>
                                         </span>
                                     </td>
@@ -123,13 +122,13 @@
                                     <td>
                                         <span class="d-flex gap-5 align-items-center  justify-content-between">
                                             <span class="sub-title">Total: </span>
-                                            <span class="sub-price sub-price-total">${{ cart_items | get_final_price }}</span>
+                                            <span class="sub-price sub-price-total">${{ cart.get_final_price }}</span>
                                         </span>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <a href="checkout.html" class="theme-btn style-2">Proceed to checkout</a>
+                        <a href="{% url 'shop:checkout' %}" class="theme-btn style-2">Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -138,7 +137,6 @@
                 <div class="empty-cart">
                     You Dont Have A Cart Please  <a class="" href="{% url 'accounts:login' %}">Login</a>  First :(
                 </div>
-
             {% else %}
                 <div class="empty-cart">
                     No Items in Your Cart :(

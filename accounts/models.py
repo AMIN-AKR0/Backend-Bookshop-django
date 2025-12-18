@@ -29,9 +29,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class UserProfile(models.Model):
+    STATUS_CHOICES = [
+        ('Inactive', 'Inactive'),
+        ('Active', 'Active'),
+        ('Deleted', 'Deleted'),
+    ]
+
     user        = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', editable=False)
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profile_pics')
-    date_joined = models.DateTimeField(auto_now_add=True)
+    status      = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
     author      = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self):
@@ -45,13 +51,21 @@ class UserProfile(models.Model):
 
 
 class Author(models.Model):
+    STATUS_CHOICES = [
+        ('inactive', 'Inactive'),
+        ('profile-completed', 'Profile Completed'),
+        ('active', 'Active'),
+    ]
+
     user       = models.OneToOneField(User, on_delete=models.CASCADE, related_name='author')
     first_name = models.CharField(max_length=30)
     last_name  = models.CharField(max_length=30)
     bio        = models.TextField(null=True, blank=True)
     century    = models.ForeignKey('shop.Century', related_name='author', blank=True, null=True, on_delete=models.SET_NULL)
     slug       = models.SlugField(unique=True, editable=False)
-
+    demand     = models.FloatField(default=0, editable=False)
+    sale       = models.FloatField(default=0, editable=False)
+    status     = models.CharField(choices=STATUS_CHOICES, default='inactive', max_length=30)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -119,3 +133,13 @@ class SocialLink(models.Model):
 
     def __str__(self):
         return f'links for {self.author.user.username}'
+
+
+class VerifyEmail(models.Model):
+    user       = models.ForeignKey(User, on_delete=models.CASCADE)
+    email      = models.EmailField(null=True, blank=True)
+    token      = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_expired(self):
+        return (timezone.now() - self.created_at) > timedelta(minutes=10)

@@ -23,27 +23,6 @@ def get_cart_value(items, book):
     return value
 
 @register.filter()
-def get_total_price(items):
-    total = 0
-    for item in items:
-        total += item.book.price * item.quantity
-
-    return total
-
-@register.filter()
-def get_final_price(items):
-    total  = get_total_price(items)
-    total += get_taxes(items)
-
-    return total
-
-@register.filter()
-def get_taxes(items):
-    total = get_total_price(items)
-    total /= 100
-    return total
-
-@register.filter()
 def get_item_price(item_price, quantity):
     return item_price * quantity
 

@@ -1,10 +1,11 @@
 import random
 import time
+from django.urls import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from accounts.forms import LoginForm, SignupForm1, SignupForm2, RegisterForm, ForgotPasswordForm, ResetPasswordForm, NumberValidation
-from accounts.models import User, Register, Author, PhoneResetPassword, EmailResetPassword
+from accounts.forms import LoginForm, SignupForm1, SignupForm2, RegisterForm, ForgotPasswordForm, ResetPasswordForm, NumberValidation, ChengProfilePicForm, AddEmailForm
+from accounts.models import User, Register, Author, PhoneResetPassword, EmailResetPassword, VerifyEmail
 from .utils import generate_token, is_valid_uuid, send_email
 
 
@@ -45,12 +46,11 @@ def signup_page(request):
     if form.is_valid():
         number   = form.cleaned_data['number']
 
-        if not form.errors:
-            if number is not None:
-                request.session['number_register'] = number
-                return redirect('accounts:register')
-            else:
-                form.add_error('number', 'Please enter a valid number')
+        if number is not None:
+            request.session['number_register'] = number
+            return redirect('accounts:register')
+        else:
+            form.add_error('number', 'Please enter a valid number')
 
     return render(request, 'accounts/signup_page.html', {'form': form})
 
@@ -142,8 +142,10 @@ def forgot_password_page(request):
                     token = generate_token()
                     EmailResetPassword.objects.create(user=user, token=token)
                     # connect to Email panel
-                    print(f"/login/reset-password/{token}")
-                    send_email(user.email, 'Bookim', f'For Reset Your Password open link: site_name/user/login/reset-password/{token}')
+                    print(reverse('accounts:reset_password_by_email', kwargs={'token': token}))
+                    send_email(user.email, 'Bookim', f'For Reset Your Password open link:\n {reverse('accounts:reset_password_by_email', kwargs={'token': token})}')
+
+                return render(request, 'accounts/forgot_password.html', {'form': form, 'show_modal': True})
 
             else:
                 form.add_error('email_or_number', 'Email not exist')
@@ -299,3 +301,79 @@ def logout_page(request):
 def author_page(request, slug):
     author = get_object_or_404(Author, slug=slug)
     return render(request, 'accounts/author.html', {'author': author})
+
+def profile_page(request):
+    if not request.user.is_authenticated:
+        return redirect('accounts:login')
+
+    user = get_object_or_404(User, id=request.user.id)
+
+    form = ChengProfilePicForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        profile_pic = form.cleaned_data.get('picture')
+
+        user.profile.profile_pic = profile_pic
+        user.profile.save()
+
+    return render(request, 'accounts/profile_page.html', {'user': user, 'form': form})
+
+def add_email(request):
+    if not request.user.is_authenticated:
+        return redirect('accounts:login')
+
+    if request.user.email is not None:
+        raise Http404
+
+    form = AddEmailForm(request.POST or None)
+
+    if form.is_valid():
+        email = form.cleaned_data.get('email')
+
+        if User.objects.filter(email=email).exists():
+            form.add_error('email', 'Email already registered')
+
+        if VerifyEmail.objects.filter(email=email).exists():
+            for verification in VerifyEmail.objects.filter(email=email):
+                if verification.is_expired():
+                    verification.delete()
+
+            if VerifyEmail.objects.filter(email=email).exists():
+                return render(request, 'accounts/verify_email.html', {'form': form, 'show_modal': True})
+
+        if VerifyEmail.objects.filter(user=request.user).exists():
+            for verification in VerifyEmail.objects.filter(user=request.user):
+                if verification.is_expired():
+                    verification.delete()
+
+        if VerifyEmail.objects.filter(user=request.user).count() > 3:
+            form.add_error('email', 'Too many Trys.')
+
+        if not form.errors:
+            token = generate_token()
+
+            VerifyEmail.objects.create(user=request.user, token=token, email=email)
+
+            # connect to Email panel
+            print(reverse('accounts:verify_email', kwargs={'token': token}))
+            send_email(email, 'Bookim', f'For verify your email Click here: \n {reverse('accounts:verify_email', kwargs={'token': token})}')
+
+            return render(request, 'accounts/verify_email.html', {'form': form, 'show_modal': True})
+
+    return render(request, 'accounts/verify_email.html', {'form': form})
+
+def verify_email(request, token):
+    verify = get_object_or_404(VerifyEmail, token=token)
+
+    if verify.is_expired():
+        verify.delete()
+        raise Http404
+
+    user = verify.user
+
+    if not User.objects.filter(email=verify.email).exists():
+        user.email = verify.email
+        user.save()
+        verify.delete()
+
+    return redirect('accounts:profile')

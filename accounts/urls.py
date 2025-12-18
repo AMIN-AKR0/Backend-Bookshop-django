@@ -12,4 +12,7 @@ urlpatterns = [
     path('login/reset-password/<int:number>', views.reset_password_page, name="reset_password_by_number"),
     path('login/reset-password/<str:token>', views.reset_password_page, name="reset_password_by_email"),
     path('author/<str:slug>', views.author_page, name="author"),
+    path('profile/', views.profile_page, name="profile"),
+    path('profile/add_email/', views.add_email, name="add_email"),
+    path('profile/verify_email/<str:token>', views.verify_email, name="verify_email"),
 ]

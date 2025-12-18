@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Profile</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a>
+                                User
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            Profile
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section Start -->
+    <section class="contact-section fix section-padding">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-4">
+                        <div class="contact-left-items">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="video-image">
+                                    <img src="{{ user.profile.profile_pic.url }}" alt="">
+                                    <label class="video-box video-btn" for="id_picture" title="Change profile picture">
+                                        <i class="fa-solid fa-user-pen"></i>
+                                    </label>
+                                    {{ form.picture }}
+                                </div>
+                                <button type="submit" style="display: none;"></button>
+                            </form>
+                            <p class="text-danger">{{ form.picture.errors.0 }}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="contact-content">
+                            <h2>Your Account Information:</h2><br><br>
+                            <table class="info-table">
+                                <tr>
+                                  <td class="title">Phone Number:</td>
+                                  <td class="value">{{ user.number }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="title">Username:</td>
+                                  <td class="value">{{ user.username }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="title">Email:</td>
+                                    {% if user.email %}
+                                        <td class="value">{{ user.email }}</td>
+                                    {% else %}
+                                        <td class="value">
+                                        <a href="{% url 'accounts:add_email' %}" class="theme-btn-2">
+                                            Add Email<i class="fa-solid fa-arrow-right-long"></i>
+                                        </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                  <td class="title">Date To Join:</td>
+                                  <td class="value">{{ user.date_joined }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="title">Status:</td>
+                                  <td class="value">{{ user.profile.status }}</td>
+                                </tr>
+                            </table><br><br>
+                            <div class="profile-actions">
+                                <a href="" class="theme-btn style-2">
+                                    Change Details <i class="fa-solid fa-arrow-right-long"></i>
+                                </a>
+                                <a href="{% url 'accounts:logout' %}" class="theme-btn danger style-2 danger">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: "Inter", sans-serif !important;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 26px;
+        }
+
+        .info-table td {
+          padding: 10px 0;
+        }
+
+        .info-table tr {
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-table tr:last-child {
+          border-bottom: none;
+        }
+
+        .title {
+            text-align: left;
+            color: #555;
+        }
+
+        .value {
+          text-align: right;
+          font-weight: 500;
+          color: #000000;
+        }
+        .profile-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+        }
+    </style>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script>
+        document.getElementById('id_picture').addEventListener('change', function () {
+            this.form.submit();
+        });
+    </script>
+{% endblock %}

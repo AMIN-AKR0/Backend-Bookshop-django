@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'shop.apps.ShopConfig',
     'blog.apps.BlogConfig',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bookim.bookshop@gmail.com'
 EMAIL_HOST_PASSWORD = 'cxpwfywavcjieoyf'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# stripe test
+STRIPE_SECRET_KEY = 'sk_test_51SdT4FL1vFQuzmls8OMPUc7U0XjUQAflCFi63v4tAxOSR9BZUTTvw7jiN81V1dCM8mCa1dL7HcrVM8myXOjGvjRw0052b0sf1H'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51SdT4FL1vFQuzmlsEewhlAGqdGBOoWW579RxFRAgcaf6ZbSwDtNAXCk77kGakfjXNFDNt4zYMBIBH9ZPrEfx8K1x00gA5LIq4w'

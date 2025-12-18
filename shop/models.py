@@ -1,4 +1,8 @@
+import uuid
+from datetime import timedelta
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import DecimalField
+from django.utils import timezone
 from django.utils.text import slugify
 from django.db import models
 from django.urls import reverse
@@ -79,8 +83,9 @@ class Book(models.Model):
     century      = models.ForeignKey(Century, related_name='books', blank=True, null=True, on_delete=models.SET_NULL, editable=False)
     online_store = models.ManyToManyField(OnlineStore, related_name='books', blank=True)
     avg_rating   = models.FloatField(default=0, editable=False)
-    image        = models.ImageField(upload_to='books/', null=True, blank=True)
+    image        = models.ImageField(upload_to='books/')
     created_at   = models.DateTimeField(auto_now_add=True)
+    sales        = models.IntegerField(default=0, editable=False)
 
 
     def __str__(self):
@@ -163,6 +168,23 @@ class Cart(models.Model):
     def __str__(self):
         return f"cart for {self.user.username}"
 
+    def get_total_price(self):
+        total = 0
+        for item in self.items.all():
+            total += item.book.price * item.quantity
+
+        return total
+
+    def get_taxes(self):
+        total = self.get_total_price()
+        return total / 100
+
+    def get_final_price(self):
+        total = self.get_total_price()
+        taxes = self.get_taxes()
+
+        return total + taxes
+
 
 class CartItem(models.Model):
     cart     = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
@@ -183,3 +205,62 @@ class CartItem(models.Model):
             self.quantity = 30
 
         super().save(*args, **kwargs)
+
+    def get_item_price(self):
+        return self.book.price * self.quantity
+
+
+class CheckOutData(models.Model):
+    user        = models.ForeignKey(User, on_delete=models.CASCADE, related_name='checkout_data')
+    name        = models.CharField(max_length=41)
+    number      = models.CharField(max_length=11)
+    address     = models.CharField(max_length=120)
+    postal_code = models.CharField(max_length=20)
+    token       = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    def is_expired(self):
+        return timezone.now() - self.created_at > timedelta(hours=1)
+
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('Paid', 'Paid'),
+        ('Shipped', 'Shipped'),
+        ('Transmitted', 'Transmitted'),
+        ('Canceled', 'Canceled'),
+        ('Completed', 'Completed'),
+    ]
+
+    user          = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
+    order_number  = models.CharField(max_length=29, unique=True)
+    customer_name = models.CharField(max_length=100)
+    phone_number1 = models.CharField(max_length=11)
+    phone_number2 = models.CharField(max_length=11)
+    address       = models.TextField()
+    postal_code   = models.CharField(max_length=20)
+    total_amount  = DecimalField(max_digits=10, decimal_places=2)
+    created_at    = models.DateTimeField(auto_now_add=True)
+    paid_at       = models.DateTimeField(null=True, blank=True)
+    status        = models.CharField(max_length=30, choices=STATUS_CHOICES, default='paid')
+    payment_id    = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    email         = models.EmailField(null=True, blank=True)
+
+    def __str__(self):
+        return f'order by {self.user.username} at {self.created_at}'
+
+    def get_total_price(self):
+        return self.total_amount - (self.total_amount % 100)
+
+    def get_taxes(self):
+        return self.get_total_price() / 100
+
+
+class OrderItem(models.Model):
+    order    = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    book     = models.ForeignKey(Book, on_delete=models.PROTECT, null=True, blank=True)
+    quantity = models.PositiveIntegerField(default=1)
+    price    = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f'{self.book} * {self.quantity} for {self.order.user.username}'
