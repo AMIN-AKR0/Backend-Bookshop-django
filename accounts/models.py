@@ -52,9 +52,9 @@ class UserProfile(models.Model):
 
 class Author(models.Model):
     STATUS_CHOICES = [
-        ('inactive', 'Inactive'),
-        ('profile-completed', 'Profile Completed'),
-        ('active', 'Active'),
+        ('Inactive', 'inactive'),
+        ('Profile Completed', 'Profile-completed'),
+        ('Active', 'Active'),
     ]
 
     user       = models.OneToOneField(User, on_delete=models.CASCADE, related_name='author')
@@ -64,7 +64,7 @@ class Author(models.Model):
     century    = models.ForeignKey('shop.Century', related_name='author', blank=True, null=True, on_delete=models.SET_NULL)
     slug       = models.SlugField(unique=True, editable=False)
     demand     = models.FloatField(default=0, editable=False)
-    sale       = models.FloatField(default=0, editable=False)
+    sale       = models.IntegerField(default=0, editable=False)
     status     = models.CharField(choices=STATUS_CHOICES, default='inactive', max_length=30)
 
     def __str__(self):
@@ -137,9 +137,9 @@ class SocialLink(models.Model):
 
 class VerifyEmail(models.Model):
     user       = models.ForeignKey(User, on_delete=models.CASCADE)
-    email      = models.EmailField(null=True, blank=True)
+    email      = models.EmailField(null=True, blank=True, unique=True)
     token      = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def is_expired(self):
-        return (timezone.now() - self.created_at) > timedelta(minutes=10)
+        return (timezone.now() - self.created_at) > timedelta(minutes=3)

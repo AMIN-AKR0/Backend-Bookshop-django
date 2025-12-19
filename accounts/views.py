@@ -1,10 +1,10 @@
 import random
 import time
 from django.urls import reverse
-from django.http import HttpResponse, Http404
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from accounts.forms import LoginForm, SignupForm1, SignupForm2, RegisterForm, ForgotPasswordForm, ResetPasswordForm, NumberValidation, ChengProfilePicForm, AddEmailForm
+from accounts.forms import LoginForm, SignupForm1, SignupForm2, RegisterForm, ForgotPasswordForm, ResetPasswordForm, NumberValidation, ChengProfilePicForm, AddEmailForm, ChangeProfileForm, ChangePasswordForm, ChangeAuthorInfoForm
 from accounts.models import User, Register, Author, PhoneResetPassword, EmailResetPassword, VerifyEmail
 from .utils import generate_token, is_valid_uuid, send_email
 
@@ -67,23 +67,24 @@ def register_page(request):
     if not Register.objects.filter(phone_number=number).exists():
         code     = str(random.randint(10000, 99999))
         register = Register.objects.create(phone_number=number, code=code)
+
+        # connect to sms panel
+        print(register.code)
+
     else:
         register = Register.objects.get(phone_number=number)
-
-    # connect to sms panel
-    print(register.code)
 
     if form.is_valid():
         input_code = form.cleaned_data['number_code']
         if not register.is_expired():
             if number != register.phone_number:
-                form.add_error('number_code', 'something wrong')
+                form.add_error('number_code', 'something wrong.')
 
             elif input_code != register.code:
-                form.add_error('number_code', 'code is wrong')
+                form.add_error('number_code', 'code is wrong.')
 
         else:
-            form.add_error('number_code', 'code is expired')
+            form.add_error('number_code', 'code is expired.')
             register.delete()
             code     = str(random.randint(10000, 99999))
             register = Register.objects.create(phone_number=number, code=code)
@@ -204,9 +205,6 @@ def phone_forgot_password_validation(request):
     return render(request, 'accounts/forgot_password.html', {'form': form})
 
 def reset_password_page(request, token=None, number=None):
-    if request.user.is_authenticated:
-        raise Http404
-
     if number:
 
         if not request.session.get('otp_validation') or request.session.get('otp_number') != '0' + str(number):
@@ -223,6 +221,9 @@ def reset_password_page(request, token=None, number=None):
         user = get_object_or_404(User, number=request.session.get('otp_number'))
 
     elif token:
+        if request.user.is_authenticated:
+            raise Http404
+
         if not is_valid_uuid(token) or not EmailResetPassword.objects.filter(token=token).exists():
             raise Http404
 
@@ -254,7 +255,7 @@ def reset_password_page(request, token=None, number=None):
             del request.session['otp_time']
 
         login(request, user)
-        return redirect('home:home')
+        return redirect('accounts:profile')
 
     return render(request, 'accounts/reset_password.html', {'form': form})
 
@@ -306,7 +307,16 @@ def profile_page(request):
     if not request.user.is_authenticated:
         return redirect('accounts:login')
 
-    user = get_object_or_404(User, id=request.user.id)
+    user         = get_object_or_404(User, id=request.user.id)
+    author_modal = False
+
+    if user.profile.author and user.author.status == 'inactive':
+        author_modal = True
+
+    if user.profile.author and not user.author.status == 'inactive' and not user.author.status == 'Profile Completed':
+        author = True
+    else:
+        author = False
 
     form = ChengProfilePicForm(request.POST or None, request.FILES or None)
 
@@ -316,7 +326,7 @@ def profile_page(request):
         user.profile.profile_pic = profile_pic
         user.profile.save()
 
-    return render(request, 'accounts/profile_page.html', {'user': user, 'form': form})
+    return render(request, 'accounts/profile_page.html', {'user': user, 'form': form, 'author': author, 'author_modal': author_modal})
 
 def add_email(request):
     if not request.user.is_authenticated:
@@ -334,11 +344,10 @@ def add_email(request):
             form.add_error('email', 'Email already registered')
 
         if VerifyEmail.objects.filter(email=email).exists():
-            for verification in VerifyEmail.objects.filter(email=email):
-                if verification.is_expired():
-                    verification.delete()
+            if VerifyEmail.objects.get(email=email).is_expired():
+                VerifyEmail.objects.get(email=email).delete()
 
-            if VerifyEmail.objects.filter(email=email).exists():
+            else:
                 return render(request, 'accounts/verify_email.html', {'form': form, 'show_modal': True})
 
         if VerifyEmail.objects.filter(user=request.user).exists():
@@ -377,3 +386,132 @@ def verify_email(request, token):
         verify.delete()
 
     return redirect('accounts:profile')
+
+def change_profile(request):
+    if not request.user.is_authenticated:
+        return redirect('accounts:login')
+
+    form = ChangeProfileForm(request.POST or None, instance=request.user)
+    show_modal = False
+
+    if form.is_valid():
+        request.user.username = form.cleaned_data.get('username')
+        if 'email' in form.changed_data:
+            email  = form.cleaned_data.get('email')
+
+            if VerifyEmail.objects.filter(email=email).exists():
+                verification = VerifyEmail.objects.get(email=email)
+                if verification.is_expired():
+                    verification.delete()
+                else:
+                    show_modal = True
+                    return render(request, 'accounts/edit_profile.html', {'form': form, 'show_modal': show_modal})
+
+            token = generate_token()
+            VerifyEmail.objects.create(user=request.user, token=token, email=email)
+
+            show_modal = True
+
+            # connect to Email panel
+            print(reverse('accounts:verify_email', kwargs={'token': token}))
+            send_email(email, 'Bookim', f'For Change Your email address in Bookim Click: \n {reverse('accounts:verify_email', kwargs={'token': token})}')
+
+        if 'number' in form.changed_data:
+            number = form.cleaned_data.get('number')
+
+            request.session['number_change'] = number
+            request.session['user']          = request.user.id
+
+            return redirect('accounts:change_number')
+
+    return render(request, 'accounts/edit_profile.html', {'form': form, 'show_modal': show_modal})
+
+def change_number(request):
+    if not request.user.is_authenticated:
+        raise Http404
+
+    if not 'number_change' in request.session and 'user' in request.session:
+        return redirect('accounts:change_profile')
+
+    form   = RegisterForm(request.POST or None)
+    number = request.session.get('number_change')
+
+    if not Register.objects.filter(phone_number=number).exists():
+        code     = str(random.randint(10000, 99999))
+        register = Register.objects.create(phone_number=number, code=code)
+
+        # connect to sms panel
+        print(register.code)
+    else:
+        register = Register.objects.get(phone_number=number)
+
+
+    if form.is_valid():
+        input_code = form.cleaned_data['number_code']
+        if not register.is_expired():
+            if number != register.phone_number:
+                form.add_error('number_code', 'something wrong.')
+
+            elif input_code != register.code:
+                form.add_error('number_code', 'code is wrong.')
+
+        else:
+            form.add_error('number_code', 'code is expired.')
+            register.delete()
+            code     = str(random.randint(10000, 99999))
+            register = Register.objects.create(phone_number=number, code=code)
+
+            # connect to sms panel
+            print(register.code)
+
+        if not form.errors:
+            del request.session['number_change']
+
+            user = User.objects.get(id=request.session['user'])
+            user.number = register.phone_number
+            user.save()
+            register.delete()
+
+            return redirect('accounts:profile')
+
+    return render(request, 'accounts/signup_page.html', {'form': form, 'number': number})
+
+def change_password(request):
+    if not request.user.is_authenticated:
+        raise Http404
+
+    user = get_object_or_404(User, id=request.user.id)
+    form = ChangePasswordForm(request.POST or None)
+
+    if form.is_valid():
+        password = form.cleaned_data.get('password')
+
+        if not user.check_password(password):
+            form.add_error('password', 'wrong password.')
+
+        if not form.errors:
+            request.session['otp_validation'] = True
+            request.session['otp_number']     = user.number
+            request.session['otp_time']       = int(time.time())
+            return redirect('accounts:reset_password_by_number', number=request.session['otp_number'])
+
+
+    return render(request, 'accounts/reset_password.html', {'form': form})
+
+def change_author_info(request):
+    if not request.user.is_authenticated or not request.user.profile.author:
+        raise Http404
+
+    author = get_object_or_404(Author, user=request.user)
+    form   = ChangeAuthorInfoForm(request.POST or None, instance=author)
+
+    if form.is_valid():
+
+        if author.status == 'inactive':
+            author.status = 'Profile-completed'
+            author.save()
+
+        form.save()
+        return redirect('accounts:profile')
+
+    return render(request, 'accounts/change_author_info.html', {'form': form})

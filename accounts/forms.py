@@ -1,7 +1,10 @@
 from django import forms
-from accounts.models import User
 from django.contrib.auth.password_validation import validate_password
 from PIL import Image
+from django.contrib.auth import get_user_model
+from accounts.models import Author
+
+User = get_user_model()
 
 class AccountForm(forms.Form):
     def clean_email(self):
@@ -47,7 +50,7 @@ class AccountForm(forms.Form):
             cleaned_number = number[1:]
 
         if not cleaned_number.isdigit():
-            self.add_error("number", "Number must be numeric")
+            self.add_error("number", "Number must be numeric.")
 
         if cleaned_number.startswith("98"):
             cleaned_number = cleaned_number[2:]
@@ -57,7 +60,7 @@ class AccountForm(forms.Form):
             self.add_error("number", "Number must start with 09... or 98...")
 
         if len(cleaned_number) != 11:
-            self.add_error("number", "Number must contain 11 digits")
+            self.add_error("number", "Number must contain 11 digits.")
 
         return cleaned_number
 
@@ -95,13 +98,13 @@ class SignupForm1(AccountForm):
         number = self.clean_number()
 
         if User.objects.filter(number=number).exists():
-            self.add_error('number', 'Number already registered')
+            self.add_error('number', 'Number already registered.')
 
 
 class SignupForm2(AccountForm):
     username  = forms.CharField(max_length=30, required=True, widget=forms.TextInput())
-    password  = forms.CharField(widget=forms.PasswordInput())
-    password2 = forms.CharField(widget=forms.PasswordInput())
+    password  = forms.CharField(widget=forms.PasswordInput(), max_length=50)
+    password2 = forms.CharField(widget=forms.PasswordInput(), max_length=50)
 
 
     def password_chek(self, password, password2):
@@ -126,13 +129,13 @@ class SignupForm2(AccountForm):
         password2 = cleaned.get('password2')
 
         if not self.password_chek(password, password2):
-            self.add_error('password', "your Passwords don't match")
+            self.add_error('password', "your Passwords don't match.")
 
         if not self.is_username(username):
-            self.add_error('username', 'Invalid username')
+            self.add_error('username', 'Invalid username.')
 
         if User.objects.filter(username=username).exists():
-            self.add_error('username', 'Username already registered')
+            self.add_error('username', 'Username already registered.')
 
 
 class LoginForm(AccountForm):
@@ -145,7 +148,7 @@ class LoginForm(AccountForm):
         number_or_username = cleaned.get('number_or_username')
 
         if not number_or_username:
-            self.add_error('number_or_username', 'Phone number and username are required')
+            self.add_error('number_or_username', 'Phone number and username are required.')
             return cleaned
 
         if number_or_username.startswith("+") or number_or_username.startswith("-"):
@@ -160,7 +163,7 @@ class LoginForm(AccountForm):
             cleaned['username'] = number_or_username
 
         else:
-            self.add_error('number_or_username', 'Invalid number or username')
+            self.add_error('number_or_username', 'Invalid number or username.')
 
         cleaned.pop('number_or_username', None)
         return cleaned
@@ -172,7 +175,7 @@ class RegisterForm(AccountForm):
     def clean_code(self):
         code = self.cleaned_data.get('code')
         if not code:
-            self.add_error('code', 'Invalid code')
+            self.add_error('code', 'Invalid code.')
             return None
         return code.strip().replace(" ", "")
 
@@ -183,7 +186,7 @@ class NumberValidation(AccountForm):
     def clean_code(self):
         code = self.cleaned_data.get('code')
         if not code:
-            self.add_error('code', 'Invalid code')
+            self.add_error('code', 'Invalid code.')
             return None
         return code.strip().replace(" ", "")
 
@@ -202,7 +205,7 @@ class ForgotPasswordForm(AccountForm):
                 email_or_number = "0" + email_or_number[2:]
 
         if not email_or_number:
-            self.add_error('email_or_number', 'Phone number and username are required')
+            self.add_error('email_or_number', 'Phone number and username are required.')
 
         if self.is_number(email_or_number):
             cleaned['number'] = email_or_number
@@ -211,15 +214,15 @@ class ForgotPasswordForm(AccountForm):
             cleaned['email'] = email_or_number
 
         else:
-            self.add_error('email_or_number', 'Invalid email or number')
+            self.add_error('email_or_number', 'Invalid email or number.')
 
         cleaned.pop('email_or_number', None)
         return cleaned
 
 
 class ResetPasswordForm(AccountForm):
-    password  = forms.CharField(widget=forms.PasswordInput())
-    password2 = forms.CharField(widget=forms.PasswordInput())
+    password  = forms.CharField(widget=forms.PasswordInput(), max_length=50)
+    password2 = forms.CharField(widget=forms.PasswordInput(), max_length=50)
 
     def clean_password(self):
         password = self.cleaned_data['password']
@@ -234,10 +237,10 @@ class ResetPasswordForm(AccountForm):
         password2 = cleaned.get('password2')
 
         if not password or not password2:
-            self.add_error('password', 'password is required')
+            self.add_error('password', 'password is required.')
 
         if password != password2:
-            self.add_error('password2', "your Passwords don't match")
+            self.add_error('password', "your Passwords don't match.")
 
         return cleaned
 
@@ -248,3 +251,20 @@ class ChengProfilePicForm(AccountForm):
 
 class AddEmailForm(AccountForm):
     email = forms.EmailField(max_length=254, required=True, widget=forms.TextInput(), label="email")
+
+
+class ChangeProfileForm(AccountForm, forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['number', 'username', 'email']
+
+
+class ChangePasswordForm(AccountForm):
+    password = forms.CharField(widget=forms.PasswordInput(), max_length=50)
+
+
+class ChangeAuthorInfoForm(AccountForm, forms.ModelForm):
+    class Meta:
+        model = Author
+
+        fields = ['first_name', 'last_name', 'century', 'bio']

@@ -22,50 +22,41 @@
                                 <ul>
                                     <li>
                                         <a href="{% url 'home:home' %}">
-                                            Home
+                                            <i class="fas fa-home"></i>  Home
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{% url 'shop:shop' %}">
-                                            Shop
+                                            <i class="fas fa-shop"></i>  Shop
                                         </a>
-                                    </li>
-                                    <li class="has-dropdown">
-                                        <a href="about.html">
-                                            Pages
-                                            <i class="fas fa-angle-down"></i>
-                                        </a>
-                                        <ul class="submenu">
-                                            <li><a href="about.html">About Us</a></li>
-                                            <li class="has-dropdown">
-                                                <a href="team.html">
-                                                    Author
-                                                    <i class="fa-solid fa-chevron-right"></i>
-                                                </a>
-                                                <ul class="submenu">
-                                                    <li><a href="team.html">Author</a></li>
-                                                    <li><a href="team-details.html">Author Profile</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="faq.html">Faq's</a></li>
-                                            <li><a href="404.html">404 Page</a></li>
-                                        </ul>
                                     </li>
                                     <li>
                                         <a href="{% url 'blog:blog' %}">
-                                            Blog
+                                            <i class="fas fa-blog"></i>  Blog
                                         </a>
                                     </li>
                                     {% if request.user.is_authenticated %}
                                     <li>
-                                        <a href="{% url 'shop:orders' %}">Orders</a>
+                                        <a href="{% url 'shop:orders' %}"><i class="fas fa-box-check"></i>  Orders</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'accounts:profile' %}">Account</a>
+                                        <a href="{% url 'accounts:profile' %}"><i class="fas fa-user"></i>  Account</a>
                                     </li>
                                     {% else %}
                                     <li>
                                         <a href="{% url 'accounts:login' %}">Login/Signup</a>
+                                    </li>
+                                    {% endif %}
+                                    {% if request.user.is_authenticated and request.user.profile.author %}
+                                    <li class="has-dropdown">
+                                        <a href="about.html">
+                                            <i class="fas fa-plus"></i> Add
+                                            <i class="fas fa-angle-down"></i>
+                                        </a>
+                                        <ul class="submenu">
+                                            <li><a href="faq.html">Add Book</a></li>
+                                            <li><a href="404.html">Add Article</a></li>
+                                        </ul>
                                     </li>
                                     {% endif %}
                                 </ul>
@@ -74,7 +65,6 @@
                     </div>
                     <div class="header-right d-flex justify-content-end align-items-center">
                         <a href="{% url 'shop:cart' %}" class="cart-icon"><i class="fa-solid fa-cart-shopping"></i></a>
-                        <a href="shop.html" class="theme-btn style-2 fadeInUp" data-wow-delay=".5s">Explore More <i class="fa-solid fa-arrow-right-long"></i></a>
                         <div class="header__hamburger d-xl-none my-auto">
                             <div class="sidebar__toggle">
                                 <i class="fas fa-bars"></i>
