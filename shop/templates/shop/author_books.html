@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tag_library %}
+
+{% block title %}Your Books{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Your Books</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            Your Books
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Section Start -->
+    <section class="shop-section fix section-padding">
+        <div class="container">
+            <div class="shop-default-wrapper">
+                <div class="col-xl-9 col-lg-8 order-1 order-md-2">
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-arts" role="tabpanel"
+                             aria-labelledby="pills-arts-tab" tabindex="0">
+                            <div class="row">
+                                {% for book in books %}
+                                    <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
+                                        <div class="shop-box-items">
+                                            <div class="book-thumb center">
+                                                <a {% if book.status != 'Inactive' %}href="{{ book.get_absolute_url }}"{% endif %}><img src="{{ book.image.url }}" alt="{{ book.title }}"></a>
+                                            </div>
+                                            <div class="shop-content">
+                                                <h3><a {% if book.status != 'Inactive' %}href="{{ book.get_absolute_url }}{% endif %}">{{ book.title }}</a></h3>
+                                                <ul class="list">
+                                                    <li>Price: {{ book.price }}</li>
+                                                    <li>Status: {{ book.status }}</li>
+                                                    <li>Amouunt saleing: {{ book.sales }}</li>
+                                                    <li>Amouunt remaining: {{ book.number }}</li>
+                                                    <li>Rateing: {{ book.avg_rating }}</li>
+                                                </ul>
+                                                <a href="{% url 'shop:book_change' slug=book.slug %}" class="theme-btn-2">
+                                                    Change Details<i class="fa-solid fa-arrow-right-long"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-nav-wrap text-center">
+                    <ul>
+                        {% if books.has_previous %}
+                            <li><a class="previous" href="?{% update_query request.GET page=books.previous_page_number %}">Previous</a></li>
+                        {% endif %}
+                        {% for page in books.paginator.page_range %}
+                            {% if page >= books.number|add:'-2' and page <= books.number|add:'2' %}
+                                <li><a class="{% if page == books.number %}next{% else %}page-numbers{% endif %}" href="?{% update_query request.GET page=page %}">{{ page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if books.has_next %}
+                            <li><a class="next" href="?{% update_query request.GET page=books.next_page_number %}">Next</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

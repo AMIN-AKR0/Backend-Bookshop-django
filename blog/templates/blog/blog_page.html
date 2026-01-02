@@ -39,7 +39,7 @@
                         {% for article in articles %}
                             <div class="news-standard-items">
                                 <div>
-                                    <img src="{{ article.cover.url }}" alt="" height="600" width="1000">
+                                    <img src="{{ article.cover.url }}" alt="">
                                 </div>
                                 <div class="news-content">
                                     <ul>
@@ -60,7 +60,7 @@
                                         <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
                                     </h3>
                                     <p>
-                                        {{ article.content|truncatechars:450 }}
+                                        {{ article.content|truncatechars:150 }}
                                     </p>
                                     <a href="{{ article.get_absolute_url }}" class="theme-btn style-2 mt-4">
                                         Read More
@@ -176,4 +176,27 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .news-standard-items img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 12px;
+        }
+        @media (max-width: 768px) {
+            .news-standard-items .news-content {
+                max-width: 100%;
+            }
+
+            .news-standard-items .news-content img {
+                object-fit: contain;
+            }
+        }
+    </style>
 {% endblock %}

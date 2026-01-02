@@ -58,7 +58,7 @@
                                         <td>
                                             <span class="d-flex gap-5 align-items-center">
                                                 <a href="{% url 'shop:delete_cart' slug=cart_item.book.slug %}" class="remove-icon">
-                                                    <img src="{% static 'assets/img/icon/icon-9.svg' %}" alt="img">
+                                                    <img src="{% static 'assets/img/icon/icon-9.svg' %}" alt="">
                                                 </a>
                                                 <span class="cart">
                                                     <a href="{{ cart_item.book.get_absolute_url }}">
@@ -135,7 +135,7 @@
         {% else %}
             {% if not_authenticated %}
                 <div class="empty-cart">
-                    You Dont Have A Cart Please  <a class="" href="{% url 'accounts:login' %}">Login</a>  First :(
+                    You Dont Have A Cart <a class="" href="{% url 'accounts:login' %}">Login</a> First.
                 </div>
             {% else %}
                 <div class="empty-cart">

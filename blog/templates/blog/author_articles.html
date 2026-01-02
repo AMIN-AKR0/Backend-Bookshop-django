@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tag_library %}
+
+{% block title %}Your Articles{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Your Articles</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a href="{% url 'blog:blog' %}">
+                                Blog
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            Your Articles
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Standard Section Start -->
+    <section class="news-standard fix section-padding">
+        <div class="container">
+            <div class="row g-4">
+                    <div class="news-standard-wrapper">
+                        {% for article in articles %}
+                            <div class="news-standard-items">
+                                <div>
+                                    <img src="{{ article.cover.url }}" alt="">
+                                </div>
+                                <div class="news-content">
+                                    <ul>
+                                        <li>
+                                            <i class="fas fa-calendar-alt"></i>
+                                            {{ article.created }}
+                                        </li>
+                                        <li>
+                                            <i class="far fa-user"></i>
+                                            By {{ article.author.first_name }} {{ article.author.last_name }}
+                                        </li>
+                                        <li>
+                                            <i class="far fa-eye"></i>
+                                            {{ article.views.count }} Views
+                                        </li>
+                                        <li>
+                                            <i class="far fa-box"></i>
+                                            {{ article.status }}
+                                        </li>
+                                    </ul>
+                                    <h3>
+                                        <a {% if article.status == 'Public' %} href="{{ article.get_absolute_url }} {% endif %}">{{ article.title }}</a>
+                                    </h3>
+                                    <p>
+                                        {{ article.content|truncatechars:80 }}
+                                    </p>
+                                    <a href="{% url 'blog:delete_article' slug=article.slug %}" class="theme-btn style-2 danger mt-4">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="page-nav-wrap text-center wow fadeInUp" data-wow-delay=".3s">
+                            <ul>
+                                {% if articles.has_previous %}
+                                    <li><a class="previous" href="?{% update_query request.GET page=articles.previous_page_number %}">Previous</a></li>
+                                {% endif %}
+                                {% for page in articles.paginator.page_range %}
+                                    {% if page >= articles.number|add:'-2' and page <= articles.number|add:'2' %}
+                                        <li><a class="{% if page == articles.number %}next{% else %}page-numbers{% endif %}" href="?{% update_query request.GET page=page %}">{{ page }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if articles.has_next %}
+                                    <li><a class="next" href="?{% update_query request.GET page=articles.next_page_number %}">Next</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .news-standard-items img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 12px;
+        }
+        @media (max-width: 768px) {
+            .news-standard-items .news-content {
+                max-width: 100%;
+            }
+
+            .news-standard-items .news-content img {
+                object-fit: contain;
+            }
+        }
+    </style>
+{% endblock %}

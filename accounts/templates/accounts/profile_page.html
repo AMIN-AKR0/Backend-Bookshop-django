@@ -127,7 +127,7 @@
                                         <tr>
                                             <td class="title">Your Book:</td>
                                             <td class="value">{{ user.author.books.count }}
-                                            <a href="" class="theme-btn-2">
+                                            <a href="{% url 'shop:author_books' %}" class="theme-btn-2">
                                                 See<i class="fa-solid fa-arrow-right-long"></i>
                                             </a></td>
                                         </tr>
@@ -136,7 +136,7 @@
                                         <tr>
                                             <td class="title">Your Article:</td>
                                             <td class="value">{{ user.author.articles.count }}
-                                            <a href="" class="theme-btn-2">
+                                            <a href="{% url 'blog:author_articles' %}" class="theme-btn-2">
                                                 See<i class="fa-solid fa-arrow-right-long"></i>
                                             </a></td>
                                         </tr>

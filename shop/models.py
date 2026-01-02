@@ -65,27 +65,35 @@ class OnlineStore(models.Model):
 
 
 class Book(models.Model):
+    STATUS_CHOICES = [
+        ('Active', 'Active'),
+        ('Inactive', 'Inactive'),
+        ('Deleted', 'Deleted'),
+        ('Ended', 'Ended'),
+    ]
+
     title        = models.CharField(max_length=100)
-    description  = models.TextField()
+    description  = models.TextField(max_length=2000)
     price        = models.FloatField()
-    summary      = models.TextField(null=True, blank=True)
-    sku          = models.CharField(max_length=300)
+    summary      = models.TextField(null=True, blank=True, max_length=2000)
+    sku          = models.CharField(max_length=40)
     pages        = models.IntegerField()
     publish_year = models.IntegerField(null=True, blank=True)
-    publish_date = models.DateField(null=True, blank=True)
-    language     = models.CharField(max_length=100)
-    dimensions	 = models.CharField(max_length=300, null=True, blank=True)
-    weight       = models.CharField(max_length=300, null=True, blank=True)
+    century      = models.ForeignKey(Century, on_delete=models.PROTECT, blank=True, null=True)
+    language     = models.CharField(max_length=20)
+    dimensions	 = models.CharField(max_length=10, null=True, blank=True)
+    weight       = models.IntegerField(null=True, blank=True)
     author       = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
     slug         = models.SlugField(max_length=300, unique=True, null=True, blank=True, editable=False)
     tags         = models.ManyToManyField(Tag, related_name='books', blank=True)
-    categories   = models.ForeignKey(Category, related_name='books', on_delete=models.SET_NULL, null=True, blank=True)
-    century      = models.ForeignKey(Century, related_name='books', blank=True, null=True, on_delete=models.SET_NULL, editable=False)
+    categories   = models.ForeignKey(Category, related_name='books', on_delete=models.PROTECT)
     online_store = models.ManyToManyField(OnlineStore, related_name='books', blank=True)
     avg_rating   = models.FloatField(default=0, editable=False)
-    image        = models.ImageField(upload_to='books/')
+    image        = models.ImageField(upload_to='shop/books/cover/')
     created_at   = models.DateTimeField(auto_now_add=True)
     sales        = models.IntegerField(default=0, editable=False)
+    status       = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Inactive')
+    number       = models.IntegerField(default=1)
 
 
     def __str__(self):
@@ -101,8 +109,6 @@ class Book(models.Model):
                 slug      = f"{base_slug}-{number}"
 
             self.slug = slug
-
-        self.century  = self.author.century
 
         super().save(*args, **kwargs)
 

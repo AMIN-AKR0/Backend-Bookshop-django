@@ -89,14 +89,23 @@
                                 <h3>${{ book.price }}</h3>
                             </div>
                             <div class="cart-wrapper">
-                            {% if request.user.is_authenticated %}
+                            {% if request.user.is_authenticated and book.status == 'Active' %}
                                 <div class="quantity-basket">
+                                    {% if book.number <= 30 %}
+                                        <h6 class="text-danger">Only {{ book.number }} left.</h6>
+                                    {% endif %}
                                     <p class="qty">
                                         <button class="qtyminus" aria-hidden="true">−</button>
-                                        <label for="qty2"></label><input type="number" name="qty" id="qty2" min="1" max="30" step="1" value={{ request.user.cart.items.all|get_cart_value:book }}>
+                                        <label for="qty2"></label><input type="number" name="qty" id="qty2" min="1" {% if book.number < 30 %}max="{{ book.number }}"{% else %} max="30"{% endif %} step="1" value={{ request.user.cart.items.all|get_cart_value:book }}>
                                         <button class="qtyplus" aria-hidden="true">+</button>
                                     </p>
                                 </div>
+                            {% endif %}
+                            {% if book.status == 'Ended' %}
+                                <h5 class="text-danger">This Book is finished.</h5>
+                            {% endif %}
+                            {% if book.status == 'Deleted' %}
+                                <h5 class="text-danger">This Book not exist.</h5>
                             {% endif %}
                             {% if book.summary %}
                                 <button type="button" class="theme-btn style-2" data-bs-toggle="modal"
@@ -134,7 +143,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            {% if request.user.is_authenticated %}
+                            {% if request.user.is_authenticated and book.status == 'Active' %}
                                 <a href="" id="add_cart" class="theme-btn" data-action="add-to-cart">Add To Cart</a>
                             {% endif %}
                             </div>

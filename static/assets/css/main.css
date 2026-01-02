@@ -632,12 +632,12 @@ span {
     transform: translateX(-50%);
   }
 }
-.contact-wrapper .contact-left-items .contact-info-area-2 {
+.contact-left-items .contact-info-area-2 {
   padding: 40px;
   background-color: var(--theme);
   border-radius: 16px 16px 0px 0px;
 }
-.contact-wrapper .contact-left-items .contact-info-area-2 .contact-info-items {
+.contact-left-items .contact-info-area-2 .contact-info-items {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -646,11 +646,11 @@ span {
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 @media (max-width: 1199px) {
-  .contact-wrapper .contact-left-items .contact-info-area-2 .contact-info-items {
+.contact-left-items .contact-info-area-2 .contact-info-items {
     flex-wrap: wrap;
   }
 }
-.contact-wrapper .contact-left-items .contact-info-area-2 .contact-info-items .icon {
+.contact-left-items .contact-info-area-2 .contact-info-items .icon {
   width: 65px;
   height: 65px;
   line-height: 65px;
@@ -661,30 +661,30 @@ span {
   font-size: 30px;
   color: var(--white);
 }
-.contact-wrapper .contact-left-items .contact-info-area-2 .contact-info-items .content p {
+.contact-left-items .contact-info-area-2 .contact-info-items .content p {
   color: var(--white);
   margin-bottom: 5px;
 }
-.contact-wrapper .contact-left-items .contact-info-area-2 .contact-info-items .content h3 {
+.contact-left-items .contact-info-area-2 .contact-info-items .content h3 {
   font-size: 24px;
   color: var(--white);
   text-transform: initial;
 }
-.contact-wrapper .contact-left-items .contact-info-area-2 .contact-info-items .content h3 a {
+.contact-left-items .contact-info-area-2 .contact-info-items .content h3 a {
   color: var(--white);
 }
-.contact-wrapper .contact-left-items .contact-info-area-2 .contact-info-items.border-none {
+.contact-left-items .contact-info-area-2 .contact-info-items.border-none {
   border: none !important;
 }
-.contact-wrapper .contact-left-items .video-image {
+.contact-left-items .video-image {
   position: relative;
 }
-.contact-wrapper .contact-left-items .video-image img {
+.video-image img {
   width: 100%;
   height: 100%;
   border-radius: 16px 16px 16px 16px;
 }
-.contact-wrapper .contact-left-items .video-image .video-box {
+.video-image .video-box {
   position: absolute;
     bottom: 10px;
     left: 10px;
@@ -702,7 +702,7 @@ span {
 #id_picture {
     display: none;
 }
-.contact-wrapper .contact-left-items .video-image .video-box .video-btn {
+.video-image .video-box .video-btn {
   display: inline-block;
   width: 60px;
   height: 60px;
@@ -712,11 +712,17 @@ span {
   color: var(--theme);
   background-color: var(--white);
 }
-.contact-wrapper .contact-left-items .video-image .video-box .ripple::before, .contact-wrapper .contact-left-items .video-image .video-box .ripple::after {
+.contact-left-items .video-image .video-box .ripple::before, .contact-wrapper .contact-left-items .video-image .video-box .ripple::after {
   box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
 }
-.contact-wrapper .contact-content {
+.contact-content {
   margin-left: 40px;
+}
+#id_cover {
+    display: none;
+}
+#id_image {
+    display: none;
 }
 @media (max-width: 991px) {
   .contact-wrapper .contact-content {
@@ -3796,9 +3802,13 @@ span {
   border-radius: 8px;
 }
 .news-standard-wrapper .news-standard-items .news-content {
-  margin-top: 20px;
-  position: relative;
   z-index: 9;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
 }
 .news-standard-wrapper .news-standard-items .news-content ul {
   display: flex;
@@ -3830,7 +3840,6 @@ span {
     line-height: 125%;
   }
 }
-
 .main-sidebar .single-sidebar-widget {
   padding: 40px 30px;
   background-color: transparent;
@@ -4508,6 +4517,13 @@ span {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 8px;
+}
+.shop-box-items .shop-content .list {
+  display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  align-items: center;
   margin-top: 8px;
 }
 .shop-box-items .shop-content .price-list li {

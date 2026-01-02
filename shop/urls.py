@@ -17,4 +17,8 @@ urlpatterns = [
     path('cart/checkout/create_checkout_session/', views.create_checkout_session, name='create_checkout_session'),
     path('cart/checkout/success/', views.payment_success, name='payment_success'),
     path('cart/checkout/canceled/', views.payment_canceled, name='payment_canceled'),
+    path('author/books/add/', views.add_book, name='add_book'),
+    path('shop/author/add_cover/', views.upload_book_cover, name='upload_book_cover'),
+    path('author/books/', views.author_books, name='author_books'),
+    path('shop/author/books/change/<str:slug>', views.book_change, name='book_change'),
 ]

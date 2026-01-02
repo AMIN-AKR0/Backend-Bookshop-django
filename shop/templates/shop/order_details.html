@@ -118,7 +118,7 @@
                                 </tr>
                             </table>
                         </div>
-                        {% if order.status == 'paid' or order.status == 'shipped' %}
+                        {% if order.status == 'paid' or order.status == 'Shipped' %}
                             <div class="cart-wrapper-footer">
                                 <a href="{% url 'shop:order-change' order_number=order.order_number %}" class="theme-btn">
                                     Change Details <i class="fa-solid fa-arrow-right-long"></i>

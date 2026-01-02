@@ -119,6 +119,11 @@
                                 <p>Subtotal</p>
                             </div>
                             {% for item in cart.items.all %}
+                                {% with error=errors|dict_get:item.book.id %}
+                                    {% if error %}
+                                        <h6 class="text-danger">{{ error }}</h6>
+                                    {% endif %}
+                                {% endwith %}
                                 <div class="checkout-item d-flex align-items-center justify-content-between">
                                     <p>{{ item.book.title }}</p>
                                     <p>{{ item.quantity }}</p>

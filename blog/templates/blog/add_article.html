@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Article{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Add Your Article</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a href="{% url 'blog:blog' %}">
+                                Blog
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            Add Article
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Section Start -->
+    <section class="checkout-section fix section-padding">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-9">
+                    <form action="{% url 'blog:add_article' %}" method="post">
+                        {% csrf_token %}
+                        <div class="checkout-single-wrapper">
+                            <div class="checkout-single boxshado-single">
+                                <h4>Complete The Fields:</h4>
+                                <div class="checkout-single-form">
+                                    <div class="row g-4">
+                                        <div class="input-single">
+                                            <span>Title:</span>
+                                            {% if artocle_form.title.errors %}
+                                                <h6 class="text-danger">{{ artocle_form.title.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ artocle_form.title }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Category:</span>
+                                            {% if artocle_form.category.errors %}
+                                                <h6 class="text-danger">{{ artocle_form.category.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ artocle_form.category }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Body:</span>
+                                            {% if artocle_form.content.errors %}
+                                                <h6 class="text-danger">{{ artocle_form.content.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ artocle_form.content }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 wow fadeInUp" data-wow-delay=".9s">
+                                        <button type="button" id="forceSubmit" class="theme-btn style-2">
+                                            Add Article <i class="fa-solid fa-arrow-right-long"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3">
+                    <h3>Cover:</h3>
+                    <div class="contact-left-items">
+                        <div class="video-image">
+                            {% if cover_url %}
+                                <img id="coverPreview" src="{{ cover_url }}" alt="">
+                            {% else %}
+                                <img id="coverPreview" src="{% static 'assets/img/add-cover.jpg' %}" alt="">
+                            {% endif %}
+                            <label class="video-box video-btn" for="id_cover" title="Add Cover picture">
+                                <i class="fa-solid fa-image"></i>
+                            </label>
+                            <input type="file" name="cover" id="id_cover">
+                        </div>
+                        {% if artocle_form.cover.errors %}
+                            <h6 class="text-danger">{{ artocle_form.cover.errors.0 }}</h6>
+                        {% endif %}
+                        <h6 class="text-danger" id="cover-error"></h6>
+                    </div>
+                    <br><br><h3>Images (End of Body - Optional):</h3>
+                    <div class="contact-left-items text-center">
+                        <div class="video-image">
+                            <div id="imagePreview">
+                                <img src="{% static 'assets/img/add-image.jpg' %}" alt="" class="default-image">
+                                <label class="video-box video-btn upload-btn" for="id_image" title="Add picture">
+                                    <i class="fa-solid fa-images"></i>
+                                </label><br>
+                                {% if image_form.image.errors %}
+                                    <h6 class="text-danger">{{ image_form.image.errors.0 }}</h6>
+                                {% endif %}
+                                <h6 class="text-danger" id="image-error" style="display: none;"></h6>
+                                {% for image in images %}
+                                    <div class="image-wrapper" data-path="{{ image.path }}">
+                                        <img src="{{ image.url }}" alt="" class="main-image">
+                                        <a href="#" class="remove-icon">
+                                            <img src="{% static 'assets/img/icon/icon-9.svg' %}" alt="">
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <input type="file" name="image" id="id_image" multiple>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .image-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .main-image {
+            display: block;
+        }
+        .remove-icon {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e2e3e5;
+            border-radius: 50%;
+            padding: 4px;
+            z-index: 10;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .image-wrapper:hover .remove-icon {
+            opacity: 1;
+        }
+        .remove-icon img {
+            width: 16px;
+            height: 16px;
+        }
+        .contact-left-items h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            margin: 0.3rem 0;
+            line-height: 1.4;
+        }
+    </style>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        (function ($) {
+            function updateUI() {
+                let count = $('.image-wrapper').length;
+                if (count >= 2) {
+                    $('.default-image').hide();
+                    $('.upload-btn').hide();
+                } else {
+                    $('.default-image').show();
+                    $('.upload-btn').show();
+                }
+            }
+
+            $(document).ready(function () {
+                updateUI();
+            });
+
+            $(document).on('change', '#id_cover', function () {
+                if (!this.files.length) return;
+
+                let formData = new FormData();
+                formData.append('cover', this.files[0]);
+
+                function showCoverError(message) {
+                    $('#cover-error')
+                        .text(message)
+                        .show()
+                }
+
+                function clearCoverError() {
+                    $('#cover-error')
+                        .text('')
+                        .hide()
+                }
+
+                $.ajax({
+                    url: "{% url 'blog:upload_cover' %}",
+                    type: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        clearCoverError()
+                        $('#coverPreview').attr('src', data.cover_url);
+                    },
+                    error: function (xhr) {
+                        let res = xhr.responseJSON;
+                        if (res && res.errors && res.errors.cover) {
+                            showCoverError(res.errors.cover.join(' , '))
+                        }
+                    }
+                });
+            });
+
+            $(document).on('change', '#id_image', function () {
+                let files = this.files;
+                if (!files.length) return;
+
+                for (let i = 0; i < files.length; i++) {
+                    let formData = new FormData();
+                    formData.append('image', files[i]);
+
+                    function showImageError(message) {
+                        $('#image-error')
+                            .text(message)
+                            .show()
+                    }
+
+                    function clearImageError() {
+                        $('#image-error')
+                            .text('')
+                            .hide()
+                    }
+
+                    $.ajax({
+                        url: "{% url 'blog:upload_image' %}",
+                        type: "POST",
+                        headers: {
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            clearImageError();
+                            $('#imagePreview').append(
+                                '<div class="image-wrapper" data-path="' + data.temp_path + '">' +
+                                    '<img src="' + data.image_url + '" class="main-image">' +
+                                    '<a href="#" class="remove-icon">' +
+                                        '<img src="{% static "assets/img/icon/icon-9.svg" %}" alt="">' +
+                                    '</a>' +
+                                '</div>'
+                            );
+                            updateUI();
+                        },
+                        error: function (xhr) {
+                            let res = xhr.responseJSON;
+                            if (res && res.errors && res.errors.image) {
+                                let msg = Array.isArray(res.errors.image) ? res.errors.image.join(' , '):
+                                    res.errors.image;
+                                showImageError(msg)
+                            }
+                        }
+                    });
+                }
+
+                this.value = '';
+            });
+
+            $(document).on('click', '.remove-icon', function (e) {
+                e.preventDefault();
+
+                let box = $(this).closest('.image-wrapper');
+                let path = box.data('path');
+
+                $.ajax({
+                    url: "{% url 'blog:delete_image' %}",
+                    type: "POST",
+                    data: {
+                        path: path,
+                        csrfmiddlewaretoken: "{{ csrf_token }}"
+                    },
+                    success: function () {
+                        box.remove();
+                        updateUI();
+                    }
+                });
+            });
+
+        })(jQuery);
+    </script>
+    <script>
+        document.getElementById('forceSubmit').addEventListener('click', function () {
+            const form = this.closest('form');
+
+            if (!form) {
+                alert('FORM NOT FOUND');
+                return;
+            }
+
+            form.submit();
+        });
+    </script>
+{% endblock %}

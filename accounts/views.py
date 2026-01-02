@@ -310,10 +310,10 @@ def profile_page(request):
     user         = get_object_or_404(User, id=request.user.id)
     author_modal = False
 
-    if user.profile.author and user.author.status == 'inactive':
+    if user.profile.author and user.author.status == 'Inactive':
         author_modal = True
 
-    if user.profile.author and not user.author.status == 'inactive' and not user.author.status == 'Profile Completed':
+    if user.profile.author and not user.author.status == 'Inactive' and not user.author.status == 'Profile Completed':
         author = True
     else:
         author = False
@@ -507,8 +507,8 @@ def change_author_info(request):
 
     if form.is_valid():
 
-        if author.status == 'inactive':
-            author.status = 'Profile-completed'
+        if author.status == 'Inactive':
+            author.status = 'Profile Completed'
             author.save()
 
         form.save()

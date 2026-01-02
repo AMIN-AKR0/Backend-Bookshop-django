@@ -9,12 +9,6 @@
                                 <img src="{% static 'assets/img/logo/logo.svg' %}" alt="logo-img">
                             </a>
                         </div>
-                        <div class="search-widget">
-                            <form action="#">
-                                <input type="text" placeholder="Search for Products...">
-                                <button type="submit"><i class="fa-regular fa-magnifying-glass"></i></button>
-                            </form>
-                        </div>
                     </div>
                     <div class="mean__menu-wrapper">
                         <div class="main-menu">
@@ -49,13 +43,13 @@
                                     {% endif %}
                                     {% if request.user.is_authenticated and request.user.profile.author %}
                                     <li class="has-dropdown">
-                                        <a href="about.html">
+                                        <a href="{% url 'shop:add_book' %}">
                                             <i class="fas fa-plus"></i> Add
                                             <i class="fas fa-angle-down"></i>
                                         </a>
                                         <ul class="submenu">
-                                            <li><a href="faq.html">Add Book</a></li>
-                                            <li><a href="404.html">Add Article</a></li>
+                                            <li><a href="{% url 'shop:add_book' %}">Add Book</a></li>
+                                            <li><a href="{% url 'blog:add_article' %}">Add Article</a></li>
                                         </ul>
                                     </li>
                                     {% endif %}

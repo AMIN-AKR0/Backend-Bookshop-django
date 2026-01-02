@@ -58,3 +58,7 @@ def count_comment(articles):
         count += article.comments.count()
 
     return count
+
+@register.filter
+def dict_get(dictionary, key):
+    return dictionary.get(key)

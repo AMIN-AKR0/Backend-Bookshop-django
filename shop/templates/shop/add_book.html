@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+    <!-- Section Start -->
+    <div class="breadcrumb-wrapper bg-cover section-padding"
+        style="background-image: url({% static 'assets/img/hero/breadcrumb-bg.jpg' %});">
+        <div class="container">
+            <div class="page-heading">
+                <h1>Add Your Book To Sale</h1>
+                <div class="page-header">
+                    <ul class="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+                        <li>
+                            <a href="{% url 'home:home' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a href="{% url 'shop:shop' %}">
+                                Shop
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li>
+                            Add Book
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Section Start -->
+    <section class="checkout-section fix section-padding">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-9">
+                    <form action="{% url 'shop:add_book' %}" method="post">
+                        {% csrf_token %}
+                        <div class="checkout-single-wrapper">
+                            <div class="checkout-single boxshado-single">
+                                <h4>Complete The Fields:</h4>
+                                <div class="checkout-single-form">
+                                    <div class="row g-4">
+                                        <div class="input-single">
+                                            <span>Title:</span>
+                                            {% if form.title.errors %}
+                                                <h6 class="text-danger">{{ form.title.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.title }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Language:</span>
+                                            {% if form.language.errors %}
+                                                <h6 class="text-danger">{{ form.language.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.language }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Publish year (Optional):</span>
+                                            {% if form.publish_year.errors %}
+                                                <h6 class="text-danger">{{ form.publish_year.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.publish_year }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>How Many Do You Have?:</span>
+                                            {% if form.number.errors %}
+                                                <h6 class="text-danger">{{ form.number.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.number }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>How Many Pages?:</span>
+                                            {% if form.pages.errors %}
+                                                <h6 class="text-danger">{{ form.pages.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.pages }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Book`s Weight (Optional - gram):</span>
+                                            {% if form.weight.errors %}
+                                                <h6 class="text-danger">{{ form.weight.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.weight }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Book`s Length (Optional):</span>
+                                            {% if form.length.errors %}
+                                                <h6 class="text-danger">{{ form.length.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.length }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Book`s Width (Optional):</span>
+                                            {% if form.width.errors %}
+                                                <h6 class="text-danger">{{ form.width.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.width }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Description:</span>
+                                            {% if form.description.errors %}
+                                                <h6 class="text-danger">{{ form.description.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.description }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Summery (Optional):</span>
+                                            {% if form.summary.errors %}
+                                                <h6 class="text-danger">{{ form.summary.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.summary }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Book`s Price ($):</span>
+                                            {% if form.price.errors %}
+                                                <h6 class="text-danger">{{ form.price.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.price }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Book`s Sku:</span>
+                                            {% if form.sku.errors %}
+                                                <h6 class="text-danger">{{ form.sku.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.sku }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Online Store (Optional):</span>
+                                            {% if form.online_store.errors %}
+                                                <h6 class="text-danger">{{ form.online_store.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.online_store }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Category:</span>
+                                            {% if form.categories.errors %}
+                                                <h6 class="text-danger">{{ form.categories.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.categories }}
+                                        </div>
+                                        <div class="input-single">
+                                            <span>Tags (Optional):</span>
+                                            {% if form.tags.errors %}
+                                                <h6 class="text-danger">{{ form.tags.errors.0 }}</h6>
+                                            {% endif %}
+                                            {{ form.tags }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 wow fadeInUp" data-wow-delay=".9s">
+                                        <button type="button" id="forceSubmit" class="theme-btn style-2">
+                                            Add Book <i class="fa-solid fa-arrow-right-long"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3">
+                    <h3>Book Cover:</h3>
+                    <div class="contact-left-items">
+                        <div class="video-image">
+                            {% if cover_url %}
+                                <img id="coverPreview" src="{{ cover_url }}" alt="">
+                            {% else %}
+                                <img id="coverPreview" src="{% static 'assets/img/add-cover.jpg' %}" alt="">
+                            {% endif %}
+                            <label class="video-box video-btn" for="id_cover" title="Add Cover picture">
+                                <i class="fa-solid fa-image"></i>
+                            </label>
+                            <input type="file" name="cover" id="id_cover">
+                        </div>
+                        {% if form.image.errors %}
+                            <h6 class="text-danger">{{ form.image.errors.0 }}</h6>
+                        {% endif %}
+                        <h6 class="text-danger" id="cover-error"></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .contact-left-items h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            margin: 0.3rem 0;
+            line-height: 1.4;
+        }
+        .checkout-single-form .row.g-4 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .checkout-single-form .col-lg-7 {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-single-form .row.g-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-single-form .col-lg-7 {
+                grid-column: span 1;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).on('change', '#id_cover', function () {
+                if (!this.files.length) return;
+
+                let formData = new FormData();
+                formData.append('cover', this.files[0]);
+
+                function showCoverError(message) {
+                    $('#cover-error')
+                        .text(message)
+                        .show()
+                }
+
+                function clearCoverError() {
+                    $('#cover-error')
+                        .text('')
+                        .hide()
+                }
+
+                $.ajax({
+                    url: "{% url 'shop:upload_book_cover' %}",
+                    type: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        clearCoverError()
+                        $('#coverPreview').attr('src', data.cover_url);
+                    },
+                    error: function (xhr) {
+                        let res = xhr.responseJSON;
+                        if (res && res.errors && res.errors.cover) {
+                            showCoverError(res.errors.cover.join(' , '))
+                        }
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+    <script>
+        document.getElementById('forceSubmit').addEventListener('click', function () {
+            const form = this.closest('form');
+
+            if (!form) {
+                alert('FORM NOT FOUND');
+                return;
+            }
+
+            form.submit();
+        });
+    </script>
+{% endblock %}

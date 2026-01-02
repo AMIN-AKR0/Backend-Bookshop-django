@@ -22,6 +22,10 @@ class BlogCategory(models.Model):
 
 
 class Article(models.Model):
+    STATUS_CHOICES = [
+        ('Public', 'Public' ),
+        ('Waiting', 'Waiting' ),
+    ]
     author   = models.ForeignKey('accounts.Author', on_delete=models.CASCADE, related_name='articles')
     title    = models.CharField(max_length=100)
     content  = models.TextField()
@@ -29,6 +33,7 @@ class Article(models.Model):
     category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, related_name='articles')
     slug     = models.SlugField(unique=True, editable=False, null=True)
     cover    = models.ImageField(upload_to='blog/article/cover')
+    status   = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Public')
 
     def __str__(self):
         return f"{self.title} By {self.author}"
@@ -84,10 +89,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user} Comment by {self.article}"
-
-    def save(self, *args, **kwargs):
-        if len(self.message) > 200:
-            self.message = self.message[:200] + '...'
-
-        if Comment.objects.filter(user=self.user, article=self.article).count() > 10:
-            raise ValidationError("You can only upload at most 10 comments")

@@ -85,7 +85,7 @@ class AccountForm(forms.Form):
 
         img = Image.open(picture)
 
-        if img.format not in ['JPEG', 'PNG', 'GIF']:
+        if img.format not in ['JPEG', 'PNG']:
             self.add_error('picture', 'Profile Picture must be an image.')
 
         return picture
