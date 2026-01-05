@@ -1,32 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Home Page{% endblock %}
+{% load tag_library %}
+{% block title %}Home{% endblock %}
 {% block content %}
+
+
 <!-- Hero Section start  -->
     <div class="hero-section hero-1 fix bg-cover" style="background-image: url({% static 'assets/img/hero/hero-bg-1.jpg' %});">
-
         <div class="container">
             <div class="row align-items-center g-4">
                 <div class="col-xl-8 col-lg-6">
                     <div class="hero-main-wrapper">
                         <div class="hero-content">
-                            <h4 class="wow fadeInUp" data-wow-delay=".2s">editor choice best books <span>Up to 50%
-                                    Off</span></h4>
                             <h1 class="wow fadeInUp" data-wow-delay=".4s">Your Next Favorite Book <br>  Is Just a
                                <span
                                     class="line-shape">Click Away <img src="{% static 'assets/img/hero/line-shape.png' %}"
                                         alt="shape"></span>
                             </h1>
-                            <p class="wow fadeInUp" data-wow-delay=".6s">Sed ac arcu sed felis vulputate molestie. Nullam at
-                                urna in velit finibus vestibulum euismod
-                                A <br>
-                                Urna. Sed quis aliquam leo. Duis iaculis lorem mauris, et convallis du</p>
+                            <p class="wow fadeInUp" data-wow-delay=".6s">Bookim Is The Best Book Shop In The World.</p>
                         </div>
                         <div class="hero-btn">
-                            <a href="shop.html" class="theme-btn wow fadeInUp" data-wow-delay=".8s">
-                                Shop Now <i class="fa-solid fa-arrow-right-long"></i>
-                            </a>
-                            <a href="shop.html" class="theme-btn style-2 wow fadeInUp" data-wow-delay="1s">
+                            <a href="{% url 'shop:shop' %}" class="theme-btn style-2 wow fadeInUp" data-wow-delay="1s">
                                 view all books <i class="fa-solid fa-arrow-right-long"></i>
                             </a>
                         </div>
@@ -44,654 +38,192 @@
         </div>
     </div>
 
-    <!-- Feature Section start  -->
-    <section class="feature-section fix section-padding">
-        <div class="container">
-            <div class="feature-wrapper">
-                <div class="feature-box-items wow fadeInUp" data-wow-delay=".2s">
-                    <div class="icon">
-                        <i class="icon-icon-1"></i>
-                    </div>
-                    <div class="content">
-                        <h3>Return & refund</h3>
-                        <p>Money back guarantee</p>
-                    </div>
-                </div>
-                <div class="feature-box-items wow fadeInUp" data-wow-delay=".4s">
-                    <div class="icon">
-                        <i class="icon-icon-2"></i>
-                    </div>
-                    <div class="content">
-                        <h3>Secure Payment</h3>
-                        <p>30% off by subscribing</p>
-                    </div>
-                </div>
-                <div class="feature-box-items wow fadeInUp" data-wow-delay=".6s">
-                    <div class="icon">
-                        <i class="icon-icon-3"></i>
-                    </div>
-                    <div class="content">
-                        <h3>Quality Support</h3>
-                        <p>Always online 24/7</p>
-                    </div>
-                </div>
-                <div class="feature-box-items wow fadeInUp" data-wow-delay=".8s">
-                    <div class="icon">
-                        <i class="icon-icon-4"></i>
-                    </div>
-                    <div class="content">
-                        <h3>Daily Offers</h3>
-                        <p>20% off by subscribing</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Shop Section start  -->
-    <section class="shop-section section-padding fix pt-0">
+    <section class="shop-section section-padding fix">
         <div class="container">
             <div class="section-title-area">
                 <div class="section-title">
-                    <h2 class="wow fadeInUp" data-wow-delay=".3s">Featured Books</h2>
+                    <h2 class="wow fadeInUp" data-wow-delay=".3s">Last Books</h2>
                 </div>
-                <a href="shop.html" class="theme-btn style-2 fadeInUp" data-wow-delay=".5s">Explore More <i
+                <a href="{% url 'shop:shop' %}" class="theme-btn style-2 fadeInUp" data-wow-delay=".5s">View More <i
                         class="fa-solid fa-arrow-right-long"></i></a>
             </div>
             <div class="swiper book-slider">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/01.png' %}" alt="img"></a>
-                                <ul class="post-box">
-                                    <li>
-                                        Hot
-                                    </li>
-                                    <li>
-                                        -30%
-                                    </li>
-                                </ul>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">Simple Things You To <br> Save BOOK</a></h3>
-                                <ul class="price-list">
-                                    <li>$30.00</li>
-                                    <li>
-                                        <del>$39.99</del>
-                                    </li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-1.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">Wilson</span>
-                                    </li>
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
+                    {% for last_book in last_books %}
+                        <div class="swiper-slide">
+                            <div class="shop-box-items style-2">
+                                <div class="book-thumb center">
+                                    <a href="{{ last_book.get_absolute_url }}"><img src="{{ last_book.image.url }}" alt="{{ last_book.title }}"></a>
+                                </div>
+                                <div class="shop-content">
+                                    <h5> {{ last_book.categories }} </h5>
+                                    <h3><a href="{{ last_book.get_absolute_url }}">{{ last_book.title }}</a></h3>
+                                    <ul class="price-list">
+                                        <li>${{ last_book.price }}</li>
+                                    </ul>
+                                    <ul class="author-post">
+                                        <li class="authot-list">
+                                            {% if last_book.author.user.profile.profile_pic %}
+                                            <span class="thumb avatar">
+                                                <img src="{{ last_book.author.user.profile.profile_pic.url }}" alt="">
+                                            </span>
+                                            {% else %}
+                                            <span class="thumb avatar">
+                                                <img src="{% static 'assets/img/default.jpg' %}" alt="">
+                                            </span>
+                                            {% endif %}
+                                            <span class="content">{{ last_book.author.first_name }} {{ last_book.author.last_name }}</span>
+                                        </li>
+                                        {% if last_book.reviews.count %}
+                                            <li class="star">
+                                                {% with avg=last_book.avg_rating %}
+                                                    {% for i in "12345" %}
+                                                        {% if avg >= i|to_int %}
+                                                            <i class="fa-solid fa-star"></i>
+                                                        {% else %}
+                                                            <i class="fa-regular fa-star"></i>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="shop-button">
+                                    <button data-slug="{{ last_book.slug }}" class="theme-btn add-to-cart-btn">Add To Cart</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/02.png' %}" alt="img"></a>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">How Deal With Very <br> Bad BOOK</a></h3>
-                                <ul class="price-list">
-                                    <li>$39.00</li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">Esther</span>
-                                    </li>
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/03.png' %}" alt="img"></a>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">The Hidden Mystery <br> Behind</a></h3>
-                                <ul class="price-list">
-                                    <li>
-                                        $29.00
-                                    </li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-3.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">Hawkins</span>
-                                    </li>
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/04.png' %}" alt="img"></a>
-                                <ul class="post-box">
-                                    <li class="style-2">
-                                        -12%
-                                    </li>
-                                </ul>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">Qple GPad With Retina <br> Sisplay</a></h3>
-                                <ul class="price-list">
-                                    <li>$19.00</li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-4.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">(Author) Albert </span>
-                                    </li>
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/05.png' %}" alt="img"></a>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">Flovely and Unicom <br> Erna</a></h3>
-                                <ul class="price-list">
-                                    <li>$30.00</li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-5.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">Alexander</span>
-                                    </li>
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Book Catagories Section start  -->
+    <!-- Top Catagories -->
     <section class="book-catagories-section fix section-padding bg-cover"
         style="background-image: url({% static 'assets/img/top-categories-bg.jpg' %});">
         <div class="container">
             <div class="book-catagories-wrapper">
                 <div class="section-title text-center">
                     <span class="icon"><img src="{% static 'assets/img/icon/icon-24.svg' %}" alt="icon"></span>
-                    <h2 class="wow fadeInUp" data-wow-delay=".3s">Top Categories Book</h2>
+                    <h2 class="wow fadeInUp" data-wow-delay=".3s">Top Categories</h2>
                 </div>
                 <div class="swiper book-catagories-slider">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="book-catagories-items">
-                                <div class="book-thumb">
-                                    <img src="{% static 'assets/img/book-categori/01.png' %}" alt="img">
-                                    <div class="book-box">
-                                        25 books
+                        {% for category in top_categories %}
+                            <div class="swiper-slide">
+                                <div class="book-catagories-items">
+                                    <div class="book-thumb">
+                                        <img src="{{ category.books.last.image.url }}" alt="">
+                                        <div class="book-box">
+                                            {{ category.books.count }} books
+                                        </div>
+                                    </div>
+                                    <div class="book-content">
+                                        <h6><a href="{% url 'shop:shop' %}?category={{ category.slug }}">{{ category.name }}</a></h6>
                                     </div>
                                 </div>
-                                <div class="book-content">
-                                    <h6><a href="shop-details.html">Castle In The Sky</a></h6>
-                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="book-catagories-items">
-                                <div class="book-thumb">
-                                    <img src="{% static 'assets/img/book-categori/02.png' %}" alt="img">
-                                    <div class="book-box">
-                                        25 books
-                                    </div>
-                                </div>
-                                <div class="book-content">
-                                    <h6><a href="shop-details.html">UX Research</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="book-catagories-items">
-                                <div class="book-thumb">
-                                    <img src="{% static 'assets/img/book-categori/03.png' %}" alt="img">
-                                    <div class="book-box">
-                                        25 books
-                                    </div>
-                                </div>
-                                <div class="book-content">
-                                    <h6><a href="shop-details.html">Safe Home</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="book-catagories-items">
-                                <div class="book-thumb">
-                                    <img src="{% static 'assets/img/book-categori/04.png' %}" alt="img">
-                                    <div class="book-box">
-                                        25 books
-                                    </div>
-                                </div>
-                                <div class="book-content">
-                                    <h6><a href="shop-details.html">Grow Flower</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="book-catagories-items">
-                                <div class="book-thumb">
-                                    <img src="{% static 'assets/img/book-categori/05.png' %}" alt="img">
-                                    <div class="book-box">
-                                        25 books
-                                    </div>
-                                </div>
-                                <div class="book-content">
-                                    <h6><a href="shop-details.html">Unicorn Erna</a></h6>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Shop Section start  -->
+    <!-- Recommended Shop  -->
     <section class="shop-section section-padding fix">
         <div class="container">
             <div class="section-title-area">
                 <div class="section-title mb- wow fadeInUp" data-wow-delay=".3s">
-                    <h2>Bookim Top Books</h2>
+                    <h2>recommended Books</h2>
                 </div>
-                <a href="shop.html" class="theme-btn style-2 wow fadeInUp" data-wow-delay=".5s">Explore More <i
-                        class="fa-solid fa-arrow-right-long"></i></a>
             </div>
             <div class="book-shop-wrapper">
-                <div class="shop-box-items style-2">
-                    <div class="book-thumb center">
-                        <a href="shop-details-2.html"><img src="{% static 'assets/img/book/05.png' %}" alt="img"></a>
-                        <ul class="shop-icon d-grid justify-content-center align-items-center">
-                            <li>
-                                <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                            </li>
-                            <li>
-                                <a href="shop-cart.html">
-
-                                    <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                            </li>
-                        </ul>
+                {% for recommended_book in recommended_books %}
+                    <div class="shop-box-items style-2">
+                        <div class="book-thumb center">
+                            <a href="{{ recommended_book.get_absolute_url }}"><img src="{{ recommended_book.image.url }}" alt="{{ recommended_book.title }}"></a>
+                        </div>
+                        <div class="shop-content">
+                            <h5> {{ recommended_book.categories }} </h5>
+                            <h3><a href="{{ recommended_book.get_absolute_url }}">{{ recommended_book.title }}</a></h3>
+                            <ul class="price-list">
+                                <li>${{ recommended_book.price }}</li>
+                            </ul>
+                            <ul class="author-post">
+                                <li class="authot-list">
+                                    {% if recommended_book.author.user.profile.profile_pic %}
+                                    <span class="thumb avatar">
+                                        <img src="{{ recommended_book.author.user.profile.profile_pic.url }}" alt="">
+                                    </span>
+                                    {% else %}
+                                    <span class="thumb avatar">
+                                        <img src="{% static 'assets/img/default.jpg' %}" alt="">
+                                    </span>
+                                    {% endif %}
+                                    <span class="content">{{ recommended_book.author.first_name }} {{ recommended_book.author.last_name }}</span>
+                                </li>
+                                {% if recommended_book.reviews.count %}
+                                    <li class="star">
+                                        {% with avg=recommended_book.avg_rating %}
+                                            {% for i in "12345" %}
+                                                {% if avg >= i|to_int %}
+                                                    <i class="fa-solid fa-star"></i>
+                                                {% else %}
+                                                    <i class="fa-regular fa-star"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endwith %}
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="shop-button">
+                            <button data-slug="{{ recommended_book.slug }}" class="theme-btn add-to-cart-btn">Add To Cart</button>
+                        </div>
                     </div>
-                    <div class="shop-content">
-                        <h5> Design Low Book </h5>
-                        <h3><a href="shop-details.html">Flovely and Unicom <br> Erna</a></h3>
-                        <ul class="price-list">
-                            <li>$30.00</li>
-                            <li>
-                                <del>$39.99</del>
-                            </li>
-                        </ul>
-                        <ul class="author-post">
-                            <li class="authot-list">
-                                <span class="thumb">
-                                    <img src="{% static 'assets/img/testimonial/client-1.png' %}" alt="img">
-                                </span>
-                                <span class="content">(Author) Albert</span>
-                            </li>
-                            <li class="star">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="shop-button">
-                        <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                    </div>
-                </div>
-
-                <div class="shop-box-items style-2">
-                    <div class="book-thumb center">
-                        <a href="shop-details-2.html"><img src="{% static 'assets/img/book/04.png' %}" alt="img"></a>
-                        <ul class="post-box">
-                            <li>
-                                Hot
-                            </li>
-                        </ul>
-                        <ul class="shop-icon d-grid justify-content-center align-items-center">
-                            <li>
-                                <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                            </li>
-                            <li>
-                                <a href="shop-cart.html">
-
-                                    <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="shop-content">
-                        <h5> Design Low Book </h5>
-                        <h3><a href="shop-details.html">Qple GPad With Retinay<br> Sispla</a></h3>
-                        <ul class="price-list">
-                            <li>$30.00</li>
-                            <li>
-                                <del>$39.99</del>
-                            </li>
-                        </ul>
-                        <ul class="author-post">
-                            <li class="authot-list">
-                                <span class="thumb">
-                                    <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                </span>
-                                <span class="content">Wilson</span>
-                            </li>
-                            <li class="star">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="shop-button">
-                        <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                    </div>
-                </div>
-
-                <div class="shop-box-items style-2">
-                    <div class="book-thumb center">
-                        <a href="shop-details-2.html"><img src="{% static 'assets/img/book/03.png' %}" alt="img"></a>
-                        <ul class="shop-icon d-grid justify-content-center align-items-center">
-                            <li>
-                                <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                            </li>
-                            <li>
-                                <a href="shop-cart.html">
-
-                                    <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="shop-content">
-                        <h5> Design Low Book </h5>
-                        <h3><a href="shop-details.html">Simple Things You To <br> Save BOOK</a></h3>
-                        <ul class="price-list">
-                            <li>$30.00</li>
-                            <li>
-                                <del>$39.99</del>
-                            </li>
-                        </ul>
-                        <ul class="author-post">
-                            <li class="authot-list">
-                                <span class="thumb">
-                                    <img src="{% static 'assets/img/testimonial/client-3.png' %}" alt="img">
-                                </span>
-                                <span class="content">Wilson</span>
-                            </li>
-                            <li class="star">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="shop-button">
-                        <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                    </div>
-                </div>
-
-                <div class="shop-box-items style-2">
-                    <div class="book-thumb center">
-                        <a href="shop-details-2.html"><img src="{% static 'assets/img/book/02.png' %}" alt="img"></a>
-                        <ul class="post-box">
-                            <li>
-                                Hot
-                            </li>
-                            <li>
-                                -30%
-                            </li>
-                        </ul>
-                        <ul class="shop-icon d-grid justify-content-center align-items-center">
-                            <li>
-                                <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                            </li>
-                            <li>
-                                <a href="shop-cart.html">
-
-                                    <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="shop-content">
-                        <h5> Design Low Book </h5>
-                        <h3><a href="shop-details.html">How Deal With Very <br> Bad BOOK</a></h3>
-                        <ul class="price-list">
-                            <li>$30.00</li>
-                            <li>
-                                <del>$39.99</del>
-                            </li>
-                        </ul>
-                        <ul class="author-post">
-                            <li class="authot-list">
-                                <span class="thumb">
-                                    <img src="{% static 'assets/img/testimonial/client-4.png' %}" alt="img">
-                                </span>
-                                <span class="content">Esther</span>
-                            </li>
-                            <li class="star">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="shop-button">
-                        <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                    </div>
-                </div>
-
+                {% endfor %}
                 <div class="cta-shop-box">
                     <h2 class="wow fadeInUp" data-wow-delay=".2s">
-                        Find Your Nest
-                        Books!
+                        Find Your Favourite Books!
                     </h2>
-                    <h6 class="wow fadeInUp" data-wow-delay=".4s">And get your 25% discount now!</h6>
-                    <a href="shop.html" class="theme-btn wow fadeInUp" data-wow-delay=".6s">Shop Now <i
+                    <a href="{% url 'shop:shop' %}" class="theme-btn wow fadeInUp" data-wow-delay=".6s">Shop Now <i
                             class="fa-solid fa-arrow-right-long"></i></a>
                     <div class="girl-shape">
-                        <img src="{% static 'assets/img/girl-shape.png' %}" alt="shape-img">
+                        <img src="{% static 'assets/img/girl-shape.png' %}" alt="">
                     </div>
                     <div class="circle-shape">
-                        <img src="{% static 'assets/img/circle-shape.png' %}" alt="shape-img">
+                        <img src="{% static 'assets/img/circle-shape.png' %}" alt="">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Cta Banner Section start  -->
+    <!-- Banner -->
     <section class="cta-banner-section fix section-padding pt-0">
         <div class="container">
             <div class="cta-banner-wrapper section-padding bg-cover"
                 style="background-image: url({% static 'assets/img/cta-banner.jpg' %});">
                 <div class="book-shape">
-                    <img src="{% static 'assets/img/cta-book-2.png' %}" alt="shape-img">
+                    <img src="{% static 'assets/img/cta-book-2.png' %}" alt="">
                 </div>
                 <div class="book-shape-2">
-                    <img src="{% static 'assets/img/cta-book.png' %}" alt="shape-img">
+                    <img src="{% static 'assets/img/cta-book.png' %}" alt="">
                 </div>
                 <div class="cta-content text-center">
-                    <span class="wow fadeInUp" data-wow-delay=".2s">Get 25% <img src="{% static 'assets/img/line-shape.png' %}" alt=""></span>
-                    <h2 class="mb-40 wow fadeInUp" data-wow-delay=".4s">discount
-                        in all <br> kind of
-                        super Selling</h2>
-                    <a href="shop.html" class="theme-btn wow fadeInUp" data-wow-delay=".6s">Shop Now<i class="fa-solid fa-arrow-right-long"></i></a>
+                    <span class="wow fadeInUp" data-wow-delay=".2s">Bookim<img src="{% static 'assets/img/line-shape.png' %}" alt=""></span>
+                    <h2 class="mb-40 wow fadeInUp" data-wow-delay=".4s">The best books in the world <br> in Bookim</h2>
+                    <a href="{% url 'shop:shop' %}" class="theme-btn wow fadeInUp" data-wow-delay=".6s">Shop Now<i class="fa-solid fa-arrow-right-long"></i></a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Top Ratting Book Section start  -->
+    <!-- Top Ratting Books -->
     <section class="top-ratting-book-section fix section-padding bg-cover"
         style="background-image: url('{% static 'assets/img/ratting-bg.jpg' %}');">
         <div class="container">
@@ -700,772 +232,138 @@
                     <div class="section-title">
                         <h2 class="wow fadeInUp" data-wow-delay=".3s">Top Rating Books</h2>
                     </div>
-                    <a href="shop.html" class="theme-btn wow fadeInUp" data-wow-delay=".5s">
-                        view more books
+                    <a href="{% url 'shop:shop' %}?sort=most-rating" class="theme-btn wow fadeInUp" data-wow-delay=".5s">
+                        view more
                         <i class="fa-solid fa-arrow-right-long"></i>
                     </a>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6 wow fadeInUp" data-wow-delay=".3s">
-                        <div class="top-ratting-box-items">
-                            <div class="book-thumb">
-                                <a href="shop-details.html">
-                                    <img src="{% static 'assets/img/top-book/01.png' %}" alt="img">
-                                </a>
-                            </div>
-                            <div class="book-content">
-                                <div class="title-header">
-                                    <div>
-                                        <h5> Design Low Book </h5>
-                                        <h3>
-                                            <a href="shop-details.html">Simple Things You To Save BOOK</a>
-                                        </h3>
+                    {% for top_rating_book in top_rating_books %}
+                        <div class="col-xl-6 wow fadeInUp" data-wow-delay=".3s">
+                            <div class="top-ratting-box-items">
+                                <div class="book-thumb">
+                                    <a href="{{ top_rating_book.get_absolute_url }}">
+                                        <img src="{{ top_rating_book.image.url }}" alt="{{ top_rating_book.title }}">
+                                    </a>
+                                </div>
+                                <div class="book-content">
+                                    <div class="title-header">
+                                        <div>
+                                            <h5> {{ top_rating_book.categories }} </h5>
+                                            <h3>
+                                                <a href="{{ top_rating_book.get_absolute_url }}">{{ top_rating_book.title }}</a>
+                                            </h3>
+                                        </div>
                                     </div>
-                                    <ul class="shop-icon d-flex justify-content-center align-items-center">
-                                        <li>
-                                            <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-cart.html">
-                                                <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-details.html"><i class="far fa-eye"></i></a>
+                                    <span class="mt-10">${{ top_rating_book.price }}</span>
+                                    <ul class="author-post">
+                                        <li class="authot-list">
+                                            {% if top_rating_book.author.user.profile.profile_pic %}
+                                            <span class="thumb avatar">
+                                                <img src="{{ top_rating_book.author.user.profile.profile_pic.url }}" alt="">
+                                            </span>
+                                            {% else %}
+                                            <span class="thumb avatar">
+                                                <img src="{% static 'assets/img/default.jpg' %}" alt="">
+                                            </span>
+                                            {% endif %}
+                                            <span class="content mt-10">{{ top_rating_book.author.first_name }} {{ top_rating_book.author.last_name }}</span>
                                         </li>
                                     </ul>
-                                </div>
-                                <span class="mt-10">$30.00</span>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                        </span>
-                                        <span class="content mt-10">Wilson</span>
-                                    </li>
-                                </ul>
-                                <div class="shop-btn">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
+                                    <div class="shop-btn">
+                                        <div class="star">
+                                            {% with avg=top_rating_book.avg_rating %}
+                                                {% for i in "12345" %}
+                                                    {% if avg >= i|to_int %}
+                                                        <i class="fa-solid fa-star"></i>
+                                                    {% else %}
+                                                        <i class="fa-regular fa-star"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endwith %}
+                                        </div>
+                                        <div class="shop-button">
+                                            <button data-slug="{{ top_rating_book.slug }}" class="theme-btn add-to-cart-btn">Add To Cart</button>
+                                        </div>
                                     </div>
-                                    <a href="shop-details.html" class="theme-btn">Add To Cart</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6 wow fadeInUp" data-wow-delay=".5s">
-                        <div class="top-ratting-box-items">
-                            <div class="book-thumb">
-                                <a href="shop-details.html">
-                                    <img src="{% static 'assets/img/top-book/02.png' %}" alt="img">
-                                </a>
-                            </div>
-                            <div class="book-content">
-                                <div class="title-header">
-                                    <div>
-                                        <h5> Design Low Book </h5>
-                                        <h3>
-                                            <a href="shop-details.html">How Deal With Very Bad BOOK</a>
-                                        </h3>
-                                    </div>
-                                    <ul class="shop-icon d-flex justify-content-center align-items-center">
-                                        <li>
-                                            <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-cart.html">
-
-                                                <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <span class="mt-10">$39.00</span>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                        </span>
-                                        <span class="content mt-10">Wilson</span>
-                                    </li>
-                                </ul>
-                                <div class="shop-btn">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 wow fadeInUp" data-wow-delay=".3s">
-                        <div class="top-ratting-box-items">
-                            <div class="book-thumb">
-                                <a href="shop-details.html">
-                                    <img src="{% static 'assets/img/top-book/03.png' %}" alt="img">
-                                </a>
-                            </div>
-                            <div class="book-content">
-                                <div class="title-header">
-                                    <div>
-                                        <h5> Design Low Book </h5>
-                                        <h3>
-                                            <a href="shop-details.html">Qple GPad With Retina Sisplay</a>
-                                        </h3>
-                                    </div>
-                                    <ul class="shop-icon d-flex justify-content-center align-items-center">
-                                        <li>
-                                            <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-cart.html">
-                                                <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <span class="mt-10">$30.00</span>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                        </span>
-                                        <span class="content mt-10">Wilson</span>
-                                    </li>
-                                </ul>
-                                <div class="shop-btn">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 wow fadeInUp" data-wow-delay=".5s">
-                        <div class="top-ratting-box-items">
-                            <div class="book-thumb">
-                                <a href="shop-details.html">
-                                    <img src="{% static 'assets/img/top-book/04.png' %}" alt="img">
-                                </a>
-                            </div>
-                            <div class="book-content">
-                                <div class="title-header">
-                                    <div>
-                                        <h5> Design Low Book </h5>
-                                        <h3>
-                                            <a href="shop-details.html">Flovely and Unicom Erna</a>
-                                        </h3>
-                                    </div>
-                                    <ul class="shop-icon d-flex justify-content-center align-items-center">
-                                        <li>
-                                            <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-cart.html">
-
-                                                <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <span class="mt-10">$19.00</span>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                        </span>
-                                        <span class="content mt-10">Wilson</span>
-                                    </li>
-                                </ul>
-                                <div class="shop-btn">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 wow fadeInUp" data-wow-delay=".3s">
-                        <div class="top-ratting-box-items">
-                            <div class="book-thumb">
-                                <a href="shop-details.html">
-                                    <img src="{% static 'assets/img/top-book/05.png' %}" alt="img">
-                                </a>
-                            </div>
-                            <div class="book-content">
-                                <div class="title-header">
-                                    <div>
-                                        <h5> Design Low Book </h5>
-                                        <h3>
-                                            <a href="shop-details.html">Castle In The Sky</a>
-                                        </h3>
-                                    </div>
-                                    <ul class="shop-icon d-flex justify-content-center align-items-center">
-                                        <li>
-                                            <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-cart.html">
-
-                                                <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <span class="mt-10">$16.00</span>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                        </span>
-                                        <span class="content mt-10">Wilson</span>
-                                    </li>
-                                </ul>
-                                <div class="shop-btn">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 wow fadeInUp" data-wow-delay=".5s">
-                        <div class="top-ratting-box-items">
-                            <div class="book-thumb">
-                                <a href="shop-details.html">
-                                    <img src="{% static 'assets/img/top-book/06.png' %}" alt="img">
-                                </a>
-                            </div>
-                            <div class="book-content">
-                                <div class="title-header">
-                                    <div>
-                                        <h5> Design Low Book </h5>
-                                        <h3>
-                                            <a href="shop-details.html">The Hidden Mystery Behind</a>
-                                        </h3>
-                                    </div>
-                                    <ul class="shop-icon d-flex justify-content-center align-items-center">
-                                        <li>
-                                            <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-cart.html">
-
-                                                <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <span class="mt-10">$30.00</span>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                        </span>
-                                        <span class="content mt-10">Wilson</span>
-                                    </li>
-                                </ul>
-                                <div class="shop-btn">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Shop Section start  -->
+    <!-- Top Sale Books  -->
     <section class="shop-section section-padding fix">
         <div class="container">
             <div class="section-title-area">
                 <div class="section-title wow fadeInUp" data-wow-delay=".3s">
                     <h2>Top Selling Books</h2>
                 </div>
-                <a href="shop.html" class="theme-btn style-2 wow fadeInUp" data-wow-delay=".5s">Explore More <i
+                <a href="{% url 'shop:shop' %}?sort=most-sale" class="theme-btn style-2 wow fadeInUp" data-wow-delay=".5s">View More <i
                         class="fa-solid fa-arrow-right-long"></i></a>
             </div>
             <div class="swiper book-slider">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/01.png' %}" alt="img"></a>
-                                <ul class="post-box">
-                                    <li>
-                                        Hot
-                                    </li>
-                                    <li>
-                                        -30%
-                                    </li>
-                                </ul>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                </ul>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">Simple Things You To <br> Save BOOK</a></h3>
-                                <ul class="price-list">
-                                    <li>$30.00</li>
-                                    <li>
-                                        <del>$39.99</del>
-                                    </li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-1.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">Wilson</span>
-                                    </li>
-
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn"> Add To Cart</a>
+                    {% for top_sale_book in top_sale_books %}
+                        <div class="swiper-slide">
+                            <div class="shop-box-items style-2">
+                                <div class="book-thumb center">
+                                    <a href="{{ top_sale_book.get_absolute_url }}"><img src="{{ top_sale_book.image.url }}" alt="{{ top_sale_book.title }}"></a>
+                                </div>
+                                <div class="shop-content">
+                                    <h5> {{ top_sale_book.categories }} </h5>
+                                    <h3><a href="{{ top_sale_book.get_absolute_url }}">{{ top_sale_book.title }}</a></h3>
+                                    <ul class="price-list">
+                                        <li>${{ top_sale_book.price }}</li>
+                                    </ul>
+                                    <ul class="author-post">
+                                        <li class="authot-list">
+                                            {% if top_sale_book.author.user.profile.profile_pic %}
+                                            <span class="thumb avatar">
+                                                <img src="{{ top_sale_book.author.user.profile.profile_pic.url }}" alt="">
+                                            </span>
+                                            {% else %}
+                                            <span class="thumb avatar">
+                                                <img src="{% static 'assets/img/default.jpg' %}" alt="">
+                                            </span>
+                                            {% endif %}
+                                            <span class="content">{{ top_sale_book.author.first_name }} {{ top_sale_book.author.last_name }}</span>
+                                        </li>
+                                        {% if top_sale_book.reviews.count %}
+                                            <li class="star">
+                                                {% with avg=top_sale_book.avg_rating %}
+                                                    {% for i in "12345" %}
+                                                        {% if avg >= i|to_int %}
+                                                            <i class="fa-solid fa-star"></i>
+                                                        {% else %}
+                                                            <i class="fa-regular fa-star"></i>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="shop-button">
+                                    <button data-slug="{{ top_sale_book.slug }}" class="theme-btn add-to-cart-btn">Add To Cart</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/02.png' %}" alt="img"></a>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">How Deal With Very <br> Bad BOOK</a></h3>
-                                <ul class="price-list">
-                                    <li>$30.00</li>
-                                    <li>
-                                        <del>$39.99</del>
-                                    </li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-2.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">Alexander</span>
-                                    </li>
-
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/03.png' %}" alt="img"></a>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">Qple GPad With Retina <br> Sisplay</a></h3>
-                                <ul class="price-list">
-                                    <li>$30.00</li>
-                                    <li>
-                                        <del>$39.99</del>
-                                    </li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-3.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">Esther</span>
-                                    </li>
-
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/04.png' %}" alt="img"></a>
-                                <ul class="post-box">
-                                    <li>
-                                        Hot
-                                    </li>
-                                </ul>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">Qple GPad With Retina <br> Sisplay</a></h3>
-                                <ul class="price-list">
-                                    <li>$30.00</li>
-                                    <li>
-                                        <del>$39.99</del>
-                                    </li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-4.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">Hawkins</span>
-                                    </li>
-
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="shop-box-items style-2">
-                            <div class="book-thumb center">
-                                <a href="shop-details-2.html"><img src="{% static 'assets/img/book/05.png' %}" alt="img"></a>
-                                <ul class="shop-icon d-grid justify-content-center align-items-center">
-                                    <li>
-                                        <a href="shop-cart.html"><i class="far fa-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-cart.html">
-
-                                            <img class="icon" src="{% static 'assets/img/icon/shuffle.svg' %}" alt="svg-icon">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html"><i class="far fa-eye"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-content">
-                                <h5> Design Low Book </h5>
-                                <h3><a href="shop-details.html">Simple Things You To <br> Save BOOK</a></h3>
-                                <ul class="price-list">
-                                    <li>$30.00</li>
-                                    <li>
-                                        <del>$39.99</del>
-                                    </li>
-                                </ul>
-                                <ul class="author-post">
-                                    <li class="authot-list">
-                                        <span class="thumb">
-                                            <img src="{% static 'assets/img/testimonial/client-5.png' %}" alt="img">
-                                        </span>
-                                        <span class="content">(Author) Albert</span>
-                                    </li>
-
-                                    <li class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="shop-button">
-                                <a href="shop-details.html" class="theme-btn">Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonial Section start  -->
-    <section class="testimonial-section fix section-padding pt-0">
-        <div class="container">
-            <div class="section-title text-left">
-                <h2 class="mb-3 wow fadeInUp" data-wow-delay=".3s">What our client say</h2>
-            </div>
-            <div class="swiper testimonial-slider">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="testimonial-card-items">
-                            <p>
-                                One of the most powerful takeaways from this book is the emphasis on adopting a mindset
-                                of abundance and possibility. The idea that we can choose to see opportunities rather
-                                than limitations is a game-changer.
-                            </p>
-                            <div class="client-info-wrapper d-flex align-items-center justify-content-between">
-                                <div class="client-info">
-                                    <div class="client-img bg-cover"
-                                        style="background-image: url('{% static 'assets/img/testimonial/01.jpg' %}');">
-                                        <div class="icon">
-                                            <img class="shape" src="{% static 'assets/img/testimonial/shape.svg' %}" alt="img">
-                                        </div>
-                                    </div>
-                                    <div class="content">
-                                        <h3>Ronald Richards</h3>
-                                        <span>Marketing Coordinator</span>
-                                        <div class="star">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="logo">
-                                    <img src="{% static 'assets/img/testimonial/logo1.png' %}" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial-card-items">
-                            <p>
-                                The idea that we can choose to see opportunities rather than limitations is a
-                                game-changer. The book encourages readers to step out of their comfort zones and embrace
-                                a more positive outlook on life.
-                            </p>
-                            <div class="client-info-wrapper d-flex align-items-center justify-content-between">
-                                <div class="client-info">
-                                    <div class="client-img bg-cover"
-                                        style="background-image: url('{% static 'assets/img/testimonial/02.jpg' %}');">
-                                        <div class="icon">
-                                            <img class="shape" src="{% static 'assets/img/testimonial/shape.svg' %}" alt="img">
-                                        </div>
-                                    </div>
-                                    <div class="content">
-                                        <h3>Dianne Russell</h3>
-                                        <span>Project Manager</span>
-                                        <div class="star">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="logo">
-                                    <img src="{% static 'assets/img/testimonial/logo2.png' %}" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial-card-items">
-                            <p>
-                                "The Art of Possibility" by Rosamund Stone Zander and Benjamin Zander is a
-                                transformative read that challenges conventional thinking and opens up new
-                                possibilities. As a reader, I found myself profoundly .
-                            </p>
-                            <div class="client-info-wrapper d-flex align-items-center justify-content-between">
-                                <div class="client-info">
-                                    <div class="client-img bg-cover"
-                                        style="background-image: url('{% static 'assets/img/testimonial/03.jpg' %}');">
-                                        <div class="icon">
-                                            <img class="shape" src="{% static 'assets/img/testimonial/shape.svg' %}" alt="img">
-                                        </div>
-                                    </div>
-                                    <div class="content">
-                                        <h3>Ronald Richards</h3>
-                                        <span>Marketing Coordinator</span>
-                                        <div class="star">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="logo">
-                                    <img src="{% static 'assets/img/testimonial/logo1.png' %}" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial-card-items">
-                            <p>
-                                From the very first chapter, the authors engage readers with inspiring stories and
-                                practical insights. Benjamin Zander's experiences as a conductor bring a unique
-                                perspective to leadership .
-                            </p>
-                            <div class="client-info-wrapper d-flex align-items-center justify-content-between">
-                                <div class="client-info">
-                                    <div class="client-img bg-cover"
-                                        style="background-image: url('{% static 'assets/img/testimonial/04.jpg' %}');">
-                                        <div class="icon">
-                                            <img class="shape" src="{% static 'assets/img/testimonial/shape.svg' %}" alt="img">
-                                        </div>
-                                    </div>
-                                    <div class="content">
-                                        <h3>Ronald Richards</h3>
-                                        <span>Marketing Coordinator</span>
-                                        <div class="star">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="logo">
-                                    <img src="{% static 'assets/img/testimonial/logo2.png' %}" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section start  -->
+    <!-- Authors  -->
     <section class="team-section fix section-padding pt-0 margin-bottom-30">
         <div class="container">
             <div class="section-title text-center">
-                <h2 class="mb-3 wow fadeInUp" data-wow-delay=".3s">Featured Author</h2>
-                <p class="wow fadeInUp" data-wow-delay=".5s">Interdum et malesuada fames ac ante ipsum primis in
-                    faucibus. <br> Donec at nulla nulla. Duis posuere ex lacus</p>
+                <h2 class="mb-3 wow fadeInUp" data-wow-delay=".3s">The most active Authors</h2>
+                <p class="wow fadeInUp" data-wow-delay=".5s"></p>
             </div>
             <div class="array-button">
                 <button class="array-prev"><i class="fal fa-arrow-left"></i></button>
@@ -1473,223 +371,110 @@
             </div>
             <div class="swiper team-slider">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="team-box-items">
-                            <div class="team-image">
-                                <div class="thumb">
-                                    <img src="{% static 'assets/img/team/01.jpg' %}" alt="img">
+                    {% for author in authors %}
+                        <div class="swiper-slide">
+                            <div class="team-box-items">
+                                <div class="team-image">
+                                    {% if author.user.profile.profile_pic %}
+                                    <div class="thumb">
+                                        <img src="{{ author.user.profile.profile_pic.url }}" alt="{{ author.user.username }}">
+                                    </div>
+                                    {% else %}
+                                    <div class="thumb">
+                                        <img src="{% static 'assets/img/default.jpg' %}" alt="">
+                                    </div>
+                                    {% endif %}
                                 </div>
-                                <div class="shape-img">
-                                    <img src="{% static 'assets/img/team/shape-img.png' %}" alt="img">
+                                <div class="team-content text-center">
+                                    <h6><a href="{% url 'accounts:author' slug=author.slug %}">{{ author.first_name }} {{ author.last_name }}</a></h6>
+                                    <p>{{ author.books.count }} Books</p>
                                 </div>
-                            </div>
-                            <div class="team-content text-center">
-                                <h6><a href="team-details.html">Esther Howard</a></h6>
-                                <p>10 Published Books</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team-box-items">
-                            <div class="team-image">
-                                <div class="thumb">
-                                    <img src="{% static 'assets/img/team/02.jpg' %}" alt="img">
-                                </div>
-                                <div class="shape-img">
-                                    <img src="{% static 'assets/img/team/shape-img.png' %}" alt="img">
-                                </div>
-                            </div>
-                            <div class="team-content text-center">
-                                <h6><a href="team-details.html">Shikhon Islam</a></h6>
-                                <p>07 Published Books</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team-box-items">
-                            <div class="team-image">
-                                <div class="thumb">
-                                    <img src="{% static 'assets/img/team/03.jpg' %}" alt="img">
-                                </div>
-                                <div class="shape-img">
-                                    <img src="{% static 'assets/img/team/shape-img.png' %}" alt="img">
-                                </div>
-                            </div>
-                            <div class="team-content text-center">
-                                <h6><a href="team-details.html">Kawser Ahmed</a></h6>
-                                <p>04 Published Books</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team-box-items">
-                            <div class="team-image">
-                                <div class="thumb">
-                                    <img src="{% static 'assets/img/team/04.jpg' %}" alt="img">
-                                </div>
-                                <div class="shape-img">
-                                    <img src="{% static 'assets/img/team/shape-img.png' %}" alt="img">
-                                </div>
-                            </div>
-                            <div class="team-content text-center">
-                                <h6><a href="team-details.html">Brooklyn Simmons</a></h6>
-                                <p>15 Published Books</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team-box-items">
-                            <div class="team-image">
-                                <div class="thumb">
-                                    <img src="{% static 'assets/img/team/05.jpg' %}" alt="img">
-                                </div>
-                                <div class="shape-img">
-                                    <img src="{% static 'assets/img/team/shape-img.png' %}" alt="img">
-                                </div>
-                            </div>
-                            <div class="team-content text-center">
-                                <h6><a href="team-details.html">Leslie Alexander</a></h6>
-                                <p>05 Published Books</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team-box-items">
-                            <div class="team-image">
-                                <div class="thumb">
-                                    <img src="{% static 'assets/img/team/06.jpg' %}" alt="img">
-                                </div>
-                                <div class="shape-img">
-                                    <img src="{% static 'assets/img/team/shape-img.png' %}" alt="img">
-                                </div>
-                            </div>
-                            <div class="team-content text-center">
-                                <h6><a href="team-details.html">Guy Hawkins</a></h6>
-                                <p>12 Published Books</p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- News Section start  -->
-    <section class="news-section fix section-padding bg-cover" style="background-image: url({% static 'assets/img/news/bg.jpg' %});">
+    <!-- Articles  -->
+    <section class="news-section fix section-padding bg-cover" style="background-image: url({% static 'assets/img/bg.jpg' %});">
         <div class="container">
             <div class="section-title text-center">
-                <h2 class="mb-3 wow fadeInUp" data-wow-delay=".3s">Our Latest News</h2>
-                <p class="wow fadeInUp" data-wow-delay=".5s">Interdum et malesuada fames ac ante ipsum primis in
-                    faucibus. <br> Donec at nulla nulla. Duis posuere ex lacus</p>
+                <h2 class="mb-3 wow fadeInUp" data-wow-delay=".3s">Latest Articles</h2>
+                <p class="wow fadeInUp" data-wow-delay=".5s">For See Other Articles Go To The Blog.</p>
             </div>
             <div class="row">
-                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
-                    <div class="news-card-items">
-                        <div class="news-image">
-                            <img src="{% static 'assets/img/news/09.jpg' %}" alt="img">
-                            <img src="{% static 'assets/img/news/09.jpg' %}" alt="img">
-                            <div class="post-box">
-                                Activities
+                {% for article in articles %}
+                    <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
+                        <div class="news-card-items">
+                            <div class="news-image">
+                                <img src="{{ article.cover.url }}" alt="{{ article.title }}">
+                                <img src="{{ article.cover.url }}" alt="{{ article.title }}">
+                            </div>
+                            <div class="news-content">
+                                <ul>
+                                    <li>
+                                        <i class="fa-light fa-calendar-days"></i>
+                                        {{ article.created }}
+                                    </li>
+                                    <li>
+                                        <i class="fa-regular fa-user"></i>
+                                        By {{ article.author.first_name }} {{ article.author.last_name }}
+                                    </li>
+                                </ul>
+                                <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+                                <a href="{{ article.get_absolute_url }}" class="theme-btn-2">Read More <i
+                                        class="fa-regular fa-arrow-right-long"></i></a>
                             </div>
                         </div>
-                        <div class="news-content">
-                            <ul>
-                                <li>
-                                    <i class="fa-light fa-calendar-days"></i>
-                                    Feb 10, 2024
-                                </li>
-                                <li>
-                                    <i class="fa-regular fa-user"></i>
-                                    By Admin
-                                </li>
-                            </ul>
-                            <h3><a href="news-details.html">Montes suspendisse massa curae malesuada</a></h3>
-                            <a href="news-details.html" class="theme-btn-2">Read More <i
-                                    class="fa-regular fa-arrow-right-long"></i></a>
-                        </div>
                     </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".4s">
-                    <div class="news-card-items">
-                        <div class="news-image">
-                            <img src="{% static 'assets/img/news/10.jpg' %}" alt="img">
-                            <img src="{% static 'assets/img/news/10.jpg' %}" alt="img">
-                            <div class="post-box">
-                                Activities
-                            </div>
-                        </div>
-                        <div class="news-content">
-                            <ul>
-                                <li>
-                                    <i class="fa-light fa-calendar-days"></i>
-                                    Mar 20, 2024
-                                </li>
-                                <li>
-                                    <i class="fa-regular fa-user"></i>
-                                    By Admin
-                                </li>
-                            </ul>
-                            <h3><a href="news-details.html">Playful Picks Paradise: Kids’ Essentials with Dash.</a></h3>
-                            <a href="news-details.html" class="theme-btn-2">Read More <i
-                                    class="fa-regular fa-arrow-right-long"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".6s">
-                    <div class="news-card-items">
-                        <div class="news-image">
-                            <img src="{% static 'assets/img/news/11.jpg' %}" alt="img">
-                            <img src="{% static 'assets/img/news/11.jpg' %}" alt="img">
-                            <div class="post-box">
-                                Activities
-                            </div>
-                        </div>
-                        <div class="news-content">
-                            <ul>
-                                <li>
-                                    <i class="fa-light fa-calendar-days"></i>
-                                    Jun 14, 2024
-                                </li>
-                                <li>
-                                    <i class="fa-regular fa-user"></i>
-                                    By Admin
-                                </li>
-                            </ul>
-                            <h3><a href="news-details.html">Tiny Emporium: Playful Picks for Kids’ Delightful Days.</a>
-                            </h3>
-                            <a href="news-details.html" class="theme-btn-2">Read More <i
-                                    class="fa-regular fa-arrow-right-long"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".8s">
-                    <div class="news-card-items">
-                        <div class="news-image">
-                            <img src="{% static 'assets/img/news/12.jpg' %}" alt="img">
-                            <img src="{% static 'assets/img/news/12.jpg' %}" alt="img">
-                            <div class="post-box">
-                                Activities
-                            </div>
-                        </div>
-                        <div class="news-content">
-                            <ul>
-                                <li>
-                                    <i class="fa-light fa-calendar-days"></i>
-                                    Mar 12, 2024
-                                </li>
-                                <li>
-                                    <i class="fa-regular fa-user"></i>
-                                    By Admin
-                                </li>
-                            </ul>
-                            <h3><a href="news-details.html">Eu parturient dictumst fames quam tempor</a></h3>
-                            <a href="news-details.html" class="theme-btn-2">Read More <i
-                                    class="fa-regular fa-arrow-right-long"></i></a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
 
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('.add-to-cart-btn').click(function(e) {
+            e.preventDefault();
+            let slug = $(this).data('slug');
+
+            $.ajax({
+                url: '/shop/add_cart/' + slug,
+                type: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                success: function(response) {
+                    if(response.status === 'added'){
+                        let notif = $('<div>Book added to cart!</div>');
+                        $('body').append(notif);
+                        notif.css({
+                            position: 'fixed',
+                            top: '20px',
+                            right: '20px',
+                            background: '#28a745',
+                            color: '#fff',
+                            padding: '5px 10px',
+                            borderRadius: '5px',
+                            fontSize: '12px',
+                            zIndex: 9999,
+                            opacity: 0
+                        });
+                        notif.animate({opacity:1}, 200).delay(800).fadeOut(400, function(){
+                            $(this).remove();
+                        });
+                    }
+                    else if(response.status === 'not_login'){
+                        window.location.href = "{% url 'accounts:login' %}";
+                    }
+                }
+            });
+        });
+    });
+    </script>
 {% endblock %}

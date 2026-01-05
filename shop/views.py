@@ -49,6 +49,10 @@ def shop(request):
             books_list = books_list.order_by('-sales')
         elif request.GET['sort'] == 'low-sale':
             books_list = books_list.order_by('sales')
+        elif request.GET['sort'] == 'most-rating':
+            books_list = books_list.order_by('-avg_rating')
+        elif request.GET['sort'] == 'low-rating':
+            books_list = books_list.order_by('avg_rating')
 
     if request.GET.get('search'):
         search = request.GET['search']
@@ -134,6 +138,23 @@ def add_cart(request):
 
     return redirect('shop:book-detail', slug=book.slug)
 
+def add_cart_one(request, slug):
+    if not request.user.is_authenticated:
+        return JsonResponse({'status':'not_login'})
+
+    book      = get_object_or_404(Book, slug=slug)
+    user_cart = get_object_or_404(Cart, user=request.user.id)
+
+    for item in user_cart.items.all():
+        if book == item.book:
+            return JsonResponse({'status': 'exist'})
+
+    if book.number >= 1:
+        CartItem.objects.create(cart=user_cart, book=book, quantity=1)
+        return JsonResponse({'status': 'added'})
+
+    return JsonResponse({'status': 'error'})
+
 def delete_cart(request, slug):
     book = get_object_or_404(Book, slug=slug)
 
@@ -167,9 +188,6 @@ def checkout(request):
         raise Http404
 
     errors = {}
-
-    if errors:
-        return render(request, 'shop/checkout.html', {'form': form, 'cart':user_cart, 'errors': errors})
 
     if form.is_valid():
         if form.cleaned_data['number'] == request.user.number:
@@ -386,7 +404,7 @@ def add_book(request):
             book            = form.save(commit=False)
             book.author     = request.user.author
             book.status     = 'Inactive'
-            book.dimensions = form.cleaned_data['dimensions']
+            book.dimensions = form.cleaned_data.get('dimensions')
             book.century    = book.author.century
             book.save()
 

@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from accounts.forms import LoginForm, SignupForm1, SignupForm2, RegisterForm, ForgotPasswordForm, ResetPasswordForm, NumberValidation, ChengProfilePicForm, AddEmailForm, ChangeProfileForm, ChangePasswordForm, ChangeAuthorInfoForm
 from accounts.models import User, Register, Author, PhoneResetPassword, EmailResetPassword, VerifyEmail
+from blog.models import Article
+from shop.models import Book
 from .utils import generate_token, is_valid_uuid, send_email
 
 
@@ -272,14 +274,14 @@ def login_page(request):
 
         if number:
             if not User.objects.filter(number=number).exists():
-                form.add_error('number_or_username', 'Number is not exist')
+                form.add_error('number_or_username', 'Number is not exist.')
 
             if not form.errors:
                 user = authenticate(number=number, password=password)
 
         elif username:
             if not User.objects.filter(username=username).exists():
-                form.add_error('number_or_username', "Username not exist")
+                form.add_error('number_or_username', "Username not exist.")
 
             if not form.errors:
                 number = User.objects.get(username=username).number
@@ -287,7 +289,7 @@ def login_page(request):
 
         if not form.errors:
             if user is None:
-                form.add_error('password', "Its not your password")
+                form.add_error('password', "Its not your password.")
                 return render(request, 'accounts/login_page.html', {"form": form})
             login(request, user)
             return redirect('home:home')
@@ -300,8 +302,15 @@ def logout_page(request):
     return redirect('home:home')
 
 def author_page(request, slug):
-    author = get_object_or_404(Author, slug=slug)
-    return render(request, 'accounts/author.html', {'author': author})
+    author   = get_object_or_404(Author, slug=slug)
+
+    if author.status != 'Active':
+        raise Http404
+
+    books = Book.objects.filter(author=author, status='Active')
+    articles = Article.objects.filter(author=author, status='Public')
+
+    return render(request, 'accounts/author.html', {'author': author, 'books': books, 'articles': articles})
 
 def profile_page(request):
     if not request.user.is_authenticated:
@@ -315,6 +324,7 @@ def profile_page(request):
 
     if user.profile.author and not user.author.status == 'Inactive' and not user.author.status == 'Profile Completed':
         author = True
+
     else:
         author = False
 
@@ -341,7 +351,7 @@ def add_email(request):
         email = form.cleaned_data.get('email')
 
         if User.objects.filter(email=email).exists():
-            form.add_error('email', 'Email already registered')
+            form.add_error('email', 'Email already registered.')
 
         if VerifyEmail.objects.filter(email=email).exists():
             if VerifyEmail.objects.get(email=email).is_expired():

@@ -5,131 +5,35 @@
                 <div class="row justify-content-between">
                     <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay=".2s">
                         <div class="single-footer-widget">
-                            <div class="widget-head"><a href="index.html" class="footer-logo">
+                            <div class="widget-head"><a href="{% url 'home:home' %}" class="footer-logo">
                                     <img src="{% static 'assets/img/logo/white-logo.svg' %}" alt="logo-img">
                                 </a>
                             </div>
                             <div class="footer-content">
-                                <p>
-                                    Bookim attracts readers of all ages, allowing them to interact with other readers and meet their favorite authors.
-                                </p>
                                 <div class="text">
-                                    <a href="tel:+67041390762">+670 413 90 762</a>
-                                    <a href="mailto:contact@example.com" class="mail-text">contact@example.com</a>
+                                    <a class="mail-text">{{ site_settings.email }}</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-4 col-md-4 ps-lg-5 wow fadeInUp" data-wow-delay=".4s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Category</h3>
-                            </div>
-                            <ul class="list-items">
-                                <li>
-                                    <a href="shop-details.html">
-                                        Action Books
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-details.html">
-                                        Comedy
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-details.html">
-                                        Drama
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-details.html">
-                                        Horror
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-details.html">
-                                        Kids Books
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-details.html">
-                                        Top 50 Books
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-4 ps-lg-5 wow fadeInUp" data-wow-delay=".6s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Useful links</h3>
-                            </div>
-                            <ul class="list-items">
-                                <li>
-                                    <a href="contact.html">
-                                        Secure Shopping
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">
-                                        Privacy Policy
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">
-                                        Terms of Use
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">
-                                        Shipping Policy
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">
-                                        Returns Policy
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">
-                                        Payment Option
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".8s">
                         <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Explore</h3>
-                            </div>
-                            <ul class="list-items">
-                                <li>
-                                    <a href="about.html">
-                                        About us
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-details.html">
-                                        Store Locator
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-details.html">
-                                        Kids Club
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="news.html">
-                                        Blogs
-                                    </a>
-                                </li>
-                            </ul>
                             <div class="social-icon d-flex align-items-center">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-vimeo-v"></i></a>
+                                {% if site_settings.facebook %}
+                                    <a href="{{ site_settings.facebook }}"><i class="fab fa-facebook-f"></i></a>
+                                {% endif %}
+                                {% if site_settings.x %}
+                                    <a href="{{ site_settings.x }}"><i class="fab fa-x"></i></a>
+                                {% endif %}
+                                {% if site_settings.instagram %}
+                                    <a href="{{ site_settings.instagram }}"><i class="fab fa-instagram"></i></a>
+                                {% endif %}
+                                {% if site_settings.linkedin %}
+                                    <a href="{{ site_settings.linkedin }}"><i class="fab fa-linkedin"></i></a>
+                                {% endif %}
+                                {% if site_settings.telegram %}
+                                    <a href="{{ site_settings.telegram }}"><i class="fab fa-telegram"></i></a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

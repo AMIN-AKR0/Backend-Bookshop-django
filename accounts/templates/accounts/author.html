@@ -52,14 +52,16 @@
             <div class="team-details-items">
                 <div class="details-image wow fadeInUp" data-wow-delay=".3s">
                     {% if author.user.profile.profile_pic %}
-                        <img src="{{ author.user.profile.profile_pic.url }}" alt="img">
+                        <img src="{{ author.user.profile.profile_pic.url }}" alt="">
                     {% else %}
-                        <img src="{% static 'assets/img/default.jpg' %}" alt="img">
+                        <img src="{% static 'assets/img/default.jpg' %}" alt="">
                     {% endif %}
                 </div>
                 <div class="details-content wow fadeInUp" data-wow-delay=".5s">
                     <h3>Author: {{ author.first_name }} {{ author.last_name }}</h3>
-                    <span>{{ author.century }}</span>
+                    {% if author.century %}
+                        <span>{{ author.century }}</span>
+                    {% endif %}
                     <div class="social-icon d-flex align-items-center">
                         {% if author.social_links.facebook_url %}
                             <a href="{{ author.social_links.facebook_url }}"><i class="fab fa-facebook-f"></i></a>
@@ -106,14 +108,14 @@
 
 <!-- Shop Section Start -->
 <section class="shop-section fix section-padding pt-0">
-    {% if author.books.all %}
+    {% if books.count %}
         <div class="container">
             <div class="section-title wow fadeInUp" data-wow-delay=".3s">
                 <h2>Books By {{ author.first_name }} {{ author.last_name }}</h2>
             </div>
             <div class="swiper book-slider">
                 <div class="swiper-wrapper">
-                    {% for book in author.books.all %}
+                    {% for book in books %}
                         <div class="swiper-slide">
                             <div class="shop-box-items style-2">
                                 <div class="book-thumb center">
@@ -126,11 +128,11 @@
                                     </ul>
                                     <ul class="author-post">
                                         <li class="authot-list">
-                                            <span class="thumb">
+                                            <span class="thumb avatar">
                                                 {% if author.user.profile.profile_pic %}
-                                                    <img src="{{ author.user.profile.profile_pic.url }}" height="50" width="50" alt="">
+                                                    <img src="{{ author.user.profile.profile_pic.url }}" alt="">
                                                 {% else %}
-                                                    <img src="{% static 'assets/img/default.jpg' %}" alt="" height="50" width="50">
+                                                    <img src="{% static 'assets/img/default.jpg' %}" alt="">
                                                 {% endif %}
                                             </span>
                                             <span class="content">{{ author.first_name }} {{ author.last_name }}</span>
@@ -155,15 +157,14 @@
             </div>
         </div>
     {% endif %}
-<br><br><br><br><br><br>
-    {% if author.articles.all %}
+    {% if articles.count %}
         <div class="container">
             <div class="section-title wow fadeInUp" data-wow-delay=".3s">
                 <h2>Article By {{ author.first_name }} {{ author.last_name }}</h2>
             </div>
             <div class="swiper book-slider">
                 <div class="swiper-wrapper">
-                    {% for article in author.articles.all %}
+                    {% for article in articles %}
                         <div class="swiper-slide">
                             <div class="shop-box-items style-2">
                                 <div class="book-thumb center">
@@ -173,11 +174,11 @@
                                     <h3><a href="{{article.get_absolute_url }}">{{ article.title }}</a></h3>
                                     <ul class="author-post">
                                         <li class="authot-list">
-                                            <span class="thumb">
+                                            <span class="thumb avatar">
                                                 {% if author.user.profile.profile_pic %}
-                                                    <img src="{{ author.user.profile.profile_pic.url }}" height="50" width="50" alt="">
+                                                    <img src="{{ author.user.profile.profile_pic.url }}" alt="">
                                                 {% else %}
-                                                    <img src="{% static 'assets/img/default.jpg' %}" alt="" height="50" width="50">
+                                                    <img src="{% static 'assets/img/default.jpg' %}" alt="">
                                                 {% endif %}
                                             </span>
                                             <span class="content">{{ author.first_name }} {{ author.last_name }}</span>
@@ -194,4 +195,13 @@
 </section>
 
 
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .shop-section .container + .container {
+            margin-top: 100px;
+        }
+    </style>
 {% endblock %}

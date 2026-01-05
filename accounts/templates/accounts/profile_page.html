@@ -235,9 +235,36 @@
         }
         .profile-actions {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             margin-top: 24px;
+        }
+        .profile-actions a:not(.danger) {
+            margin-right: 12px;
+        }
+        .profile-actions a {
+            display: inline-flex;
+            width: auto;
+            justify-content: center;
+            min-width: 120px;
+            max-width: 250px;
+            padding: 10px 20px;
+        }
+        .profile-actions .danger {
+            margin-left: auto;
+        }
+        @media (max-width: 575px) {
+            .profile-actions {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+            .profile-actions a {
+                width: auto;
+                text-align: center;
+            }
+            .profile-actions .danger {
+                margin-left: 0;
+            }
         }
     </style>
 {% endblock %}

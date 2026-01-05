@@ -48,7 +48,7 @@ def blog(request):
     page             = request.GET.get('page')
     articles         = paginator.get_page(page)
     categories       = BlogCategory.objects.all()[:8]
-    related_articles = Article.objects.order_by('-created').filter(status='Public')
+    related_articles = Article.objects.order_by('-created').filter(status='Public')[:3]
 
     return render(request, 'blog/blog_page.html', {'articles': articles, 'categories': categories, 'related_articles': related_articles})
 
@@ -59,7 +59,7 @@ def article_page(request, slug):
         raise Http404
 
     categories       = BlogCategory.objects.all()[:8]
-    related_articles = Article.objects.filter(category=article.category, status='Public').order_by('-created').exclude(id=article.id)[:5]
+    related_articles = Article.objects.filter(category=article.category, status='Public').order_by('-created').exclude(id=article.id)[:3]
 
     user_token = request.COOKIES.get('user_token')
 

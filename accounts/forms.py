@@ -3,24 +3,27 @@ from django.contrib.auth.password_validation import validate_password
 from PIL import Image
 from django.contrib.auth import get_user_model
 from accounts.models import Author
+import re
 
 User = get_user_model()
 
 class AccountForm(forms.Form):
     def clean_email(self):
         email       = self.cleaned_data.get('email')
-        email_clean = email.strip().lower().replace(" ", "")
 
-        if len(email_clean) < 10:
-            self.add_error('email', 'Please enter a valid email address.')
+        if email:
+            email_clean = email.strip().lower().replace(" ", "")
 
-        if len(email_clean) > 254:
-            self.add_error('email', 'Please enter a valid email address.')
+            if len(email_clean) < 10:
+                self.add_error('email', 'Please enter a valid email address.')
 
-        if email_clean.startswith("www."):
-            email_clean = email_clean[4:]
+            if len(email_clean) > 254:
+                self.add_error('email', 'Please enter a valid email address.')
 
-        return email_clean
+            if email_clean.startswith("www."):
+                email_clean = email_clean[4:]
+
+            return email_clean
 
     def clean_username(self):
         username       = self.cleaned_data.get('username')
@@ -65,7 +68,9 @@ class AccountForm(forms.Form):
         return cleaned_number
 
     def is_email(self, email: str) -> bool:
-        return "@gmail.com" in email.lower()
+        EMAIL_REGEX = r'^[^@\s]+@[^@\s]+\.[^@\s]+$'
+
+        return re.match(EMAIL_REGEX, email)
 
     def is_username(self, username: str) -> bool:
         return not "@" in username.lower() and not username.isdigit()
@@ -212,6 +217,8 @@ class ForgotPasswordForm(AccountForm):
 
         elif self.is_email(email_or_number):
             cleaned['email'] = email_or_number
+            self.clean_email()
+            return cleaned
 
         else:
             self.add_error('email_or_number', 'Invalid email or number.')
