@@ -1,3 +1,39 @@
+# Python
+pycache/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
 .venv/
-.idea/
+venv/
+env/
+
+# Environment variables
+.env
+.env.*
+
+# Django
 db.sqlite3
+media/
+staticfiles/
+*.log
+
+# Migrations (optional – اگر خواستی کامیت کنی، این بخشو حذف کن)
+**/migrations/*
+!**/migrations/init.py
+
+# IDEs & Editors
+.idea/
+.vscode/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Tests / Coverage
+.coverage
+htmlcov/
+
+# Node (if exists)
+node_modules/

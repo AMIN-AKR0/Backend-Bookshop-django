@@ -10,10 +10,11 @@ from accounts.managers import UserManager
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
     email        = models.EmailField(unique=True, null=True, blank=True)
-    number       = models.CharField(max_length=11, unique=True)
+    number       = models.CharField(max_length=10, unique=True)
     username     = models.CharField(max_length=30, unique=True)
     date_joined  = models.DateTimeField(auto_now_add=True)
     is_active    = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
     is_staff     = models.BooleanField(default=False)
 
     USERNAME_FIELD  = 'number'
@@ -84,7 +85,7 @@ class Author(models.Model):
 
 
 class Register(models.Model):
-    phone_number = models.CharField(unique=True, max_length=11)
+    phone_number = models.CharField(unique=True, max_length=10)
     code         = models.CharField(max_length=5)
     time         = models.DateTimeField(auto_now_add=True)
 
@@ -112,8 +113,8 @@ class EmailResetPassword(models.Model):
 
 
 class PhoneResetPassword(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    code = models.CharField(max_length=5)
+    user       = models.ForeignKey(User, on_delete=models.CASCADE)
+    code       = models.CharField(max_length=5)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def is_expired(self):

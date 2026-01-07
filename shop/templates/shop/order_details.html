@@ -90,6 +90,8 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="table-responsive">
                             <h2 class="mb-3">Other Details:</h2>
                             <table class="info-table">
                                 <tr>
@@ -175,30 +177,75 @@
     {{ block.super }}
     <style>
         .info-table {
-          width: 100%;
-          border-collapse: collapse;
+            width: 100%;
+            border-collapse: collapse;
         }
 
         .info-table td {
-          padding: 10px 0;
+            padding: 10px 0;
         }
 
         .info-table tr {
-          border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .info-table tr:last-child {
-          border-bottom: none;
+            border-bottom: none;
         }
 
         .title {
-          text-align: left;
-          color: #555;
+            text-align: left;
+            color: #555;
+            font-weight: 500;
         }
 
         .value {
-          text-align: right;
-          font-weight: 500;
+            text-align: right;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        @media (max-width: 757px) {
+
+            .info-table,
+            .info-table tbody,
+            .info-table tr {
+                display: block;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .info-table tr {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                padding: 8px 0;
+                overflow: hidden;
+            }
+
+            .info-table td {
+                padding: 0;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .title {
+                flex: 0 0 40%;
+                font-size: 12px;
+                color: #888;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .value {
+                flex: 1 1 60%;
+                font-size: 13px;
+                font-weight: 500;
+                text-align: left;
+                overflow-wrap: anywhere;
+            }
         }
     </style>
 {% endblock %}

@@ -72,7 +72,7 @@
                                         {% for image in article.images.all %}
                                             <div class="article-images col-lg-6">
                                                 <div>
-                                                    <img src="{{ image.image.url }}" alt="" height="300" width="500">
+                                                    <img src="{{ image.image.url }}" alt="">
                                                 </div>
                                             </div>
                                         {% endfor %}
@@ -89,9 +89,9 @@
                                             <div class="blog-single-comment d-flex gap-4 pt-4 pb-5">
                                                 <div class="image">
                                                     {% if comment.user.profile.profile_pic %}
-                                                        <img src="{{ comment.user.profile.profile_pic.url }}" alt="" height="100" width="100">
+                                                        <img src="{{ comment.user.profile.profile_pic.url }}" alt="">
                                                     {% else %}
-                                                        <img src="{% static 'assets/img/default.jpg' %}" alt="" height="100" width="100">
+                                                        <img src="{% static 'assets/img/default.jpg' %}" alt="">
                                                     {% endif %}
                                                 </div>
                                                 <div class="content">
@@ -99,7 +99,7 @@
                                                         class="head d-flex flex-wrap gap-2 align-items-center justify-content-between">
                                                         <div class="con">
                                                             {% if comment.user.profile.author %}
-                                                            <h5><a href="{% url 'accounts:author' slug=comment.user.author.slug %}">{{ comment.user.author.first_name }} {{ comment.user.author.last_name }}</a></h5>
+                                                            <h5><a href="{% url 'accounts:author' slug=comment.user.author.slug %}">{{ comment.user.author.first_name }} {{ comment.user.author.last_name }} (Author)</a></h5>
                                                             {% else %}
                                                                 <h5>{{ comment.user.username }}</h5>
                                                             {% endif %}

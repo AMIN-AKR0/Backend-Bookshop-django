@@ -1,7 +1,7 @@
 import uuid
 from datetime import timedelta
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.db.models import DecimalField
+from django.db.models import DecimalField, Sum, Count, F
 from django.utils import timezone
 from django.utils.text import slugify
 from django.db import models
@@ -83,7 +83,7 @@ class Book(models.Model):
     language     = models.CharField(max_length=20)
     dimensions	 = models.CharField(max_length=10, null=True, blank=True)
     weight       = models.IntegerField(null=True, blank=True)
-    author       = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
+    author       = models.ForeignKey('accounts.Author', on_delete=models.CASCADE, related_name='books')
     slug         = models.SlugField(max_length=300, unique=True, null=True, blank=True, editable=False)
     tags         = models.ManyToManyField(Tag, related_name='books', blank=True)
     categories   = models.ForeignKey(Category, related_name='books', on_delete=models.PROTECT)
@@ -219,7 +219,7 @@ class CartItem(models.Model):
 class CheckOutData(models.Model):
     user        = models.ForeignKey(User, on_delete=models.CASCADE, related_name='checkout_data')
     name        = models.CharField(max_length=41)
-    number      = models.CharField(max_length=11)
+    number      = models.CharField(max_length=10)
     address     = models.CharField(max_length=120)
     postal_code = models.CharField(max_length=20)
     token       = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -241,19 +241,19 @@ class Order(models.Model):
     user          = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
     order_number  = models.CharField(max_length=29, unique=True)
     customer_name = models.CharField(max_length=100)
-    phone_number1 = models.CharField(max_length=11)
-    phone_number2 = models.CharField(max_length=11)
+    phone_number1 = models.CharField(max_length=10)
+    phone_number2 = models.CharField(max_length=10)
     address       = models.TextField()
     postal_code   = models.CharField(max_length=20)
     total_amount  = DecimalField(max_digits=10, decimal_places=2)
     created_at    = models.DateTimeField(auto_now_add=True)
     paid_at       = models.DateTimeField(null=True, blank=True)
-    status        = models.CharField(max_length=30, choices=STATUS_CHOICES, default='paid')
+    status        = models.CharField(max_length=30, choices=STATUS_CHOICES, default='Paid')
     payment_id    = models.CharField(max_length=255, unique=True, null=True, blank=True)
     email         = models.EmailField(null=True, blank=True)
 
     def __str__(self):
-        return f'order by {self.user.username} at {self.created_at}'
+        return self.order_number
 
     def get_total_price(self):
         return self.total_amount - (self.total_amount % 100)

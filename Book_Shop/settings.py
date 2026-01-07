@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(67&m40w=v*^#!vh#fv(%zq7ru+cm%3lk7&d9&-ks@y=ya_ibm'
+SECRET_KEY = '...'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -119,14 +119,37 @@ MEDIA_ROOT = os.path.join(
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'bookim.bookshop@gmail.com'
-EMAIL_HOST_PASSWORD = 'cxpwfywavcjieoyf'
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST          = 'smtp.gmail.com'
+EMAIL_PORT          = 587
+EMAIL_USE_TLS       = True
+EMAIL_HOST_USER     = '...'
+EMAIL_HOST_PASSWORD = '...'
+DEFAULT_FROM_EMAIL  = EMAIL_HOST_USER
 
 # stripe test
-STRIPE_SECRET_KEY = 'sk_test_51SdT4FL1vFQuzmls8OMPUc7U0XjUQAflCFi63v4tAxOSR9BZUTTvw7jiN81V1dCM8mCa1dL7HcrVM8myXOjGvjRw0052b0sf1H'
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51SdT4FL1vFQuzmlsEewhlAGqdGBOoWW579RxFRAgcaf6ZbSwDtNAXCk77kGakfjXNFDNt4zYMBIBH9ZPrEfx8K1x00gA5LIq4w'
+STRIPE_SECRET_KEY      = '...'
+STRIPE_PUBLISHABLE_KEY = '...'
+
+#Jazzmin settings
+JAZZMIN_SETTINGS = {
+    'site_title'   : 'Bookim Admin',
+    'site_header'  : 'Bookim Admin',
+    'site_brand'   : 'Bookim',
+    'site_logo'    : 'assets/img/favicon.png',
+    'login_logo'   : 'assets/img/logo/logo.svg',
+    'welcome_sign' : 'Welcome to Bookim Admin Panel.',
+}
+
+JAZZMIN_UI_TWEAKS = {
+    'theme'                    : 'flatly',
+    'primary'                  : 'success',
+    'accent'                   : 'teal',
+    'navbar'                   : 'navbar-light',
+    'sidebar'                  : 'sidebar-dark-success',
+    'sidebar_nav_flat_style'   : True,
+    'sidebar_nav_compact_style': False,
+    'body_small_text'          : False,
+    'footer_small_text'        : True,
+    'sidebar_disable_expand'   : False,
+}

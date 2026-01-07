@@ -10,6 +10,10 @@ class BlogCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, editable=False, null=True)
 
+    class Meta:
+        verbose_name_plural = "Categories (For Blog)"
+        verbose_name        = "Category"
+
     def __str__(self):
         return self.name
     
@@ -74,7 +78,7 @@ class ImageArticle(models.Model):
     image   = models.ImageField(upload_to='blog/article/image')
 
     def clean(self):
-        if self.article and self.article.images.count() >= 2:
+        if self.article and self.article.images.count() > 2:
             raise ValidationError("You can only upload at most 2 images")
 
     def __str__(self):
@@ -82,7 +86,7 @@ class ImageArticle(models.Model):
 
 
 class Comment(models.Model):
-    user    = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user    = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='comments')
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
     message = models.TextField()
     created = models.DateTimeField(auto_now_add=True)

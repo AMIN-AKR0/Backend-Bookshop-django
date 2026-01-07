@@ -55,15 +55,11 @@ class AccountForm(forms.Form):
         if not cleaned_number.isdigit():
             self.add_error("number", "Number must be numeric.")
 
-        if cleaned_number.startswith("98"):
-            cleaned_number = cleaned_number[2:]
-            cleaned_number = "0" + cleaned_number
+        if cleaned_number.startswith("1"):
+            cleaned_number = cleaned_number[1:]
 
-        if not cleaned_number.startswith("09"):
-            self.add_error("number", "Number must start with 09... or 98...")
-
-        if len(cleaned_number) != 11:
-            self.add_error("number", "Number must contain 11 digits.")
+        if len(cleaned_number) != 10:
+            self.add_error("number", "Number must contain 10 digits.")
 
         return cleaned_number
 
@@ -97,7 +93,7 @@ class AccountForm(forms.Form):
 
 
 class SignupForm1(AccountForm):
-    number = forms.CharField(max_length=13, required=True, widget=forms.TextInput())
+    number = forms.CharField(max_length=12, required=True, widget=forms.TextInput())
 
     def clean(self):
         number = self.clean_number()
@@ -158,8 +154,9 @@ class LoginForm(AccountForm):
 
         if number_or_username.startswith("+") or number_or_username.startswith("-"):
             number_or_username = number_or_username[1:]
-            if number_or_username.startswith("98"):
-                number_or_username = "0" + number_or_username[2:]
+
+            if number_or_username.startswith("1"):
+                number_or_username = number_or_username[1:]
 
         if self.is_number(number_or_username):
             cleaned['number'] = number_or_username
@@ -206,8 +203,9 @@ class ForgotPasswordForm(AccountForm):
 
         if email_or_number.startswith("+") or email_or_number.startswith("-"):
             email_or_number = email_or_number[1:]
-            if email_or_number.startswith("98"):
-                email_or_number = "0" + email_or_number[2:]
+
+            if email_or_number.startswith("1"):
+                email_or_number = email_or_number[1:]
 
         if not email_or_number:
             self.add_error('email_or_number', 'Phone number and username are required.')

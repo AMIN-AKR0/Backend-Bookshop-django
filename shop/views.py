@@ -335,10 +335,11 @@ def payment_success(request):
         item.book.sales  += item.quantity
         item.book.number -= item.quantity
 
-        if item.book.number <= 0:
-            item.status = 'Ended'
-
         item.book.save()
+
+        if item.book.number <= 0:
+            item.book.status = 'Ended'
+            item.book.save()
 
         author_demand = item.book.price * item.quantity * 0.7
 
@@ -456,7 +457,7 @@ def book_change(request, slug):
     form = ChangeBookForm(request.POST or None, instance=book)
 
     if form.is_valid():
-        if form.number > 0 and book.status == 'Ended':
+        if form.cleaned_data.get('number') > 0 and book.status == 'Ended':
             book.status = 'Active'
             book.save()
 

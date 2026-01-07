@@ -4170,6 +4170,29 @@ span {
 .news-details-area .blog-post-details .comments-area .blog-single-comment .content .reply:hover {
   background-color: var(--theme);
 }
+.blog-single-comment .image {
+    width: 100px;
+    height: 100px;
+    flex: 0 0 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f2f2f2;
+}
+
+.blog-single-comment .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+@media (max-width: 575px) {
+    .blog-single-comment .image {
+        width: 70px;
+        height: 70px;
+        flex: 0 0 70px;
+    }
+}
 .news-details-area .blog-post-details .comment-form-wrap h3 {
   font-size: 32px;
   margin-bottom: 30px;

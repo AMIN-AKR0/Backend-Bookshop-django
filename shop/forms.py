@@ -6,7 +6,7 @@ from shop.models import Book, Order
 class CheckOutForm(AccountForm):
     first_name   = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={'placeholder': 'Your First Name'}))
     last_name    = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={'placeholder': 'Your Last Name'}))
-    number       = forms.CharField(max_length=13, required=True, widget=forms.TextInput(attrs={'placeholder': 'Your Phone Number'}))
+    number       = forms.CharField(max_length=12, required=True, widget=forms.TextInput(attrs={'placeholder': 'Your Phone Number'}))
     address      = forms.CharField(max_length=120, required=True, widget=forms.TextInput(attrs={'placeholder': 'city, district, street name, house number,...'}))
     postal_code  = forms.CharField(max_length=10, required=True, widget=forms.TextInput(attrs={'placeholder': 'Your Postal Code'}))
 
@@ -29,9 +29,6 @@ class CheckOutForm(AccountForm):
             self.add_error('last_name', 'Please Enter Your Last Name longer than 3 characters.')
 
         self.cleaned_data['name'] = first_name + ' ' + last_name
-
-        del self.cleaned_data['first_name']
-        del self.cleaned_data['last_name']
 
         return self.cleaned_data['name']
 
@@ -111,15 +108,11 @@ class ChangeOrderForm(forms.ModelForm):
         if not cleaned_number.isdigit():
             self.add_error("phone_number2", "Number must be numeric.")
 
-        if cleaned_number.startswith("98"):
-            cleaned_number = cleaned_number[2:]
-            cleaned_number = "0" + cleaned_number
+        if cleaned_number.startswith("1"):
+            cleaned_number = cleaned_number[1:]
 
-        if not cleaned_number.startswith("09"):
-            self.add_error("phone_number2", "Number must start with 09... or 98...")
-
-        if len(cleaned_number) != 11:
-            self.add_error("phone_number2", "Number must contain 11 digits.")
+        if len(cleaned_number) != 10:
+            self.add_error("phone_number2", "Number must contain 10 digits.")
 
         return cleaned_number
 
