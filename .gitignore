@@ -18,7 +18,7 @@ media/
 staticfiles/
 *.log
 
-# Migrations (optional – اگر خواستی کامیت کنی، این بخشو حذف کن)
+# Migrations (optional)
 **/migrations/*
 !**/migrations/init.py
 
